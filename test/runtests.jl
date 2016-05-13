@@ -40,6 +40,10 @@ function composition_tests(r, s, t)
     @test eye(r) ∘ r == r == r ∘ eye(r)
     @test r ∘ (s ∘ t) == (r ∘ s) ∘ t
     @test (r ∘ s)' == s' ∘ r'
+    @test r^0 == eye(r)
+    @test r^1 == r
+    @test r^2 == r ∘ r
+    @test r^3 == r ∘ r ∘ r
 end
 
 function diagonal_tests{N}(A::TinyPart{N}, R::TinyRelation{N})
