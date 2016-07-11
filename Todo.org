@@ -1,0 +1,23 @@
+Add TinyMaps as follows:
+
+Add tiny maps between tiny sets, complete with id(s), cod(f), dom(f),
+and f == g if f and g are the same map as parts of 8.
+
+Identify the elements of A that correspond to the elements 1, 2, ...,
+8 of 8 with maps f : 1 -> A. If this works out.
+
+Could f[3] == 5 or f(3) == 5 work? With 3 in dom(f), 5 in cod(f), or
+it would be a type error.
+
+No set operations on maps. Maps are not sets. But composition! Also
+with generalized-element syntax, f(g). Might also be able to use sets
+themselves as their identity maps.
+
+Then again, inclusion maps could be considered as parts, and should,
+so there would be set operations on them.
+
+And generate all left and right inverses.
+
+A TinyMap can be easily packed in 64 bits: 8 for dom, 8 for cod, 3 for
+each of the maximum 8 values, and there are a spare 16 bits even with
+using 4 bits per value.
