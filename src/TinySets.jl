@@ -68,8 +68,19 @@ export diagr
 export randp, randr
 export ∘
 
-include("Type.jl")
-include("Each.jl")
-include("Core.jl")
+# new start - keep some of the old imports and exports above
+import Base: ==, (-)
+export TinySet, can, tinyset, asmap, id
+export TinyMap, tinymap, dom, cod
+export image, ismono, isepi
+export top, bot
+export ≅ # Julia uses ≡ for === which is different
+include("NewStart.jl")
+# new start
+
+# old design, going away
+include("carpet/Type.jl")
+include("carpet/Each.jl")
+include("carpet/Core.jl")
 
 end

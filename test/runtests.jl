@@ -4,6 +4,92 @@ using Base.Test
 # write your own tests here
 @test 1 == 1
 
+info("=== new start tests ===")
+@test 1 == 1
+@test length(can(0)) == 0
+@test length(can(3)) == 3
+@test can(0) == tinyset()
+@test can(3) == tinyset(1,2,3)
+@test dom(tinymap(can(3))) == tinyset()
+@test cod(tinymap(can(3))) == can(3)
+@test dom(tinymap(can(3), 1 => 2)) == can(1)
+@test cod(tinymap(can(3), 1 => 2)) == can(3)
+# @test ruleof(tinymap(can(3))) == zero(UInt64) - export ruleof?
+@test tinymap(can(3)) == tinymap(can(3))
+@test tinymap(can(3)) != tinymap(can(3), 1 => 2)
+@test id(can(3)) == tinymap(can(3), 1 => 1, 2 => 2, 3 => 3)
+@test image(id(can(3))) == can(3)
+@test image(id(tinyset(3,1,4))) == tinyset(3,1,4)
+@test ismono(id(tinyset(3,1,4)))
+@test ismono(tinymap(can(3), 1 => 2, 2 => 1))
+@test !ismono(tinymap(can(3), 1 => 2, 2 => 2))
+@test isepi(id(tinyset(3,1,4)))
+@test isepi(tinymap(can(3), 1 => 2, 2 => 1, 3 => 3))
+@test !isepi(tinymap(can(3), 1 => 2, 2 => 1, 3 => 2))
+@test can(2) ∩ can(3) == can(2)
+@test can(2) ∪ can(3) == can(3)
+@test asmap(tinyset(3,1,4)) == tinymap(can(8), 3 => 3, 1 => 1, 4 => 4)
+@test asmap(can(8)) == id(can(8))
+@test image(asmap(tinyset(3,1,4)) ∩ asmap(tinyset(4,1))) == tinyset(4,1)
+@test image(asmap(tinyset(3,1,4)) ∩ asmap(tinyset(4,5))) == tinyset(4)
+@test image(asmap(tinyset(3,1,4)) ∪ asmap(tinyset(4,5))) == tinyset(5,4,3,1)
+@test image(asmap(tinyset(3,1,4)) ∩ asmap(tinyset(5))) == tinyset()
+@test image(asmap(tinyset(3,1,4)) ∪ asmap(tinyset(5))) == tinyset(5,4,3,1)
+@test ismono(asmap(tinyset(3,1,4)) ∩ asmap(tinyset(4,1)))
+@test ismono(asmap(tinyset(3,1,4)) ∩ asmap(tinyset(4,5)))
+@test ismono(asmap(tinyset(3,1,4)) ∪ asmap(tinyset(4,1)))
+@test ismono(asmap(tinyset(3,1,4)) ∪ asmap(tinyset(4,5)))
+@test ~can(8) == can(0)
+@test ~can(0) == can(8)
+@test ~asmap(can(8)) == asmap(can(0))
+@test ~asmap(can(0)) == asmap(can(8))
+info("=== new start tests done ===")
+
+function latticealgebra(x, y, z)
+    @test x ≅ x
+    @test x ∩ x ≅ x 
+    @test x ∪ x ≅ x
+    @test x ∩ z ≅ z ∩ x
+    @test x ∪ z ≅ z ∪ x
+    @test x ∩ (y ∩ z) ≅ (x ∩ y) ∩ z
+    @test x ∪ (y ∪ z) ≅ (x ∪ y) ∪ z
+    @test x ∩ (y ∪ z) ≅ (x ∩ y) ∪ (x ∩ z)
+    @test x ∪ (y ∩ z) ≅ (x ∪ y) ∩ (x ∪ z)
+    @test x ∩ (x ∪ z) ≅ x
+    @test x ∪ (x ∩ z) ≅ x
+    @test x ∩ top(x) ≅ x
+    @test x ∩ bot(x) ≅ bot(x)
+    @test x ∪ top(x) ≅ top(x)
+    @test x ∪ bot(x) ≅ x
+    @test x - bot(x) ≅ x
+    @test bot(x) - x ≅ bot(x)
+    @test x - x ≅ bot(x)
+    @test x - top(x) ≅ bot(x)
+    @test top(x) - x ≅ ~x
+    @test x - z ≅ x ∩ ~z
+    @test ~~x ≅ x
+    @test ~(x ∩ z) ≅ ~x ∪ ~z
+    @test ~(x ∪ z) ≅ ~x ∩ ~z
+    @test x ∩ ~x ≅ bot(x)
+    @test x ∪ ~x ≅ top(x)
+end
+
+info("=== New lattice algebra tests")
+latticealgebra(can(3), can(1), can(4))
+latticealgebra(tinymap(can(4), 1=>2, 2=>3), tinymap(can(4), 1=>1, 2=>3), id(can(4)))
+info("=== New lattice algebra tests done")
+
+function latticeorder(x, y, z)
+    @test bot(x) ⊆ x ⊆ top(x)
+    @test x ∩ z ⊆ x
+    @test x ⊆ x ∪ z
+end
+
+info("=== New lattice order tests not runnable yet")
+
+# need issubset and even then there is a mix of maps and sets when
+# testing on sets - shorthand is always trouble
+
 function lattice_tests(x, y, z)
     @test x == x
     @test zero(x) ⊆ x ⊆ one(x)
