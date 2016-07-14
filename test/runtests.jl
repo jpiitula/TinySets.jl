@@ -75,8 +75,11 @@ function latticealgebra(x, y, z)
 end
 
 info("=== New lattice algebra tests")
-latticealgebra(can(3), can(1), can(4))
-latticealgebra(tinymap(can(4), 1=>2, 2=>3), tinymap(can(4), 1=>1, 2=>3), id(can(4)))
+let cod = rand(TinySet)
+    latticealgebra(tinyset(), tinyset(), tinyset())
+    latticealgebra(rand(TinySet), rand(TinySet), rand(TinySet))
+    latticealgebra(randpart(cod), randpart(cod), randpart(cod))
+end
 info("=== New lattice algebra tests done")
 
 function latticeorder(x, y, z)

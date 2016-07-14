@@ -57,7 +57,6 @@ import Base: start, done, next, eltype
 import Base: hash, getindex, length
 import Base: ∈
 import Base: zero, one, eye, diag
-import Base: ∩, ∪, ~
 import Base: ×
 import Base: ⊆
 
@@ -70,12 +69,16 @@ export ∘
 
 # new start - keep some of the old imports and exports above
 import Base: ==, (-)
+import Base: ∩, ∪, ~
+import Base: rand
+export randpart
 export TinySet, can, tinyset, asmap, id
 export TinyMap, tinymap, dom, cod
 export image, ismono, isepi
 export top, bot
 export ≅ # Julia uses ≡ for === which is different
 include("NewStart.jl")
+include("rand.jl")
 # new start
 
 # old design, going away
