@@ -10,14 +10,30 @@ info("=== new start tests ===")
 @test length(can(3)) == 3
 @test can(0) == tinyset()
 @test can(3) == tinyset(1,2,3)
+@test eltype(tinyset()) == Int
+@test length(tinyset()) == 0
+@test isempty(tinyset())
+@test collect(tinyset()) == Int[]
+@test eltype(tinyset(3,1,4)) == Int
+@test length(tinyset(3,1,4)) == 3
+@test !isempty(tinyset(3,1,4))
+@test collect(tinyset(3,1,4)) == [1,3,4]
 @test dom(tinymap(can(3))) == tinyset()
 @test cod(tinymap(can(3))) == can(3)
 @test dom(tinymap(can(3), 1 => 2)) == can(1)
 @test cod(tinymap(can(3), 1 => 2)) == can(3)
-# @test ruleof(tinymap(can(3))) == zero(UInt64) - export ruleof?
 @test tinymap(can(3)) == tinymap(can(3))
 @test tinymap(can(3)) != tinymap(can(3), 1 => 2)
 @test id(can(3)) == tinymap(can(3), 1 => 1, 2 => 2, 3 => 3)
+@test isempty(tinymap(can(5)))
+@test length(tinymap(can(5))) == 0
+@test eltype(tinymap(can(5))) == Pair{Int,Int}
+@test collect(tinymap(can(5))) == Pair{Int,Int}[]
+@test !isempty(tinymap(can(5), 3 => 1, 1 => 3, 4 => 4))
+@test length(tinymap(can(5), 3 => 1, 1 => 3, 4 => 4)) == 3
+@test eltype(tinymap(can(5), 3 => 1, 1 => 3, 4 => 4)) == Pair{Int,Int}
+@test (collect(tinymap(can(5), 3 => 1, 1 => 3, 4 => 4)) ==
+       Pair[1 => 3, 3 => 1, 4 => 4])
 @test image(id(can(3))) == can(3)
 @test image(id(tinyset(3,1,4))) == tinyset(3,1,4)
 @test ismono(id(tinyset(3,1,4)))

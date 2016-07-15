@@ -14,10 +14,27 @@ canonical eight-point set. Nine of these can be made with `can(0)`,
 ..., `can(8)`, and any part of `can(8)` by listing the points as in
 `tinyset(1,3,4)`.
 
-(Describe convert method to TinyMap.)
+(Describe convert method to TinyMap. Is there a convert method?)
 """
 
 bitstype 8 TinySet
+
+eltype(dom::TinySet) = Int
+
+"""
+    length(dom::TinySet)
+
+The number of points in the tiny set.
+"""
+
+length(dom::TinySet) = count_ones(reinterpret(UInt8, dom))
+
+start(data::TinySet) = 0
+done(data::TinySet, state) = (reinterpret(UInt8, data) >> state) == 0x00
+function next(data::TinySet, state)
+    state += 1 + trailing_zeros(reinterpret(UInt8, data) >> state)
+    state, state
+end
 
 """
     can(n) :: TinySet
@@ -44,20 +61,23 @@ function tinyset(points...)
 end
 
 """
-    length(dom::TinySet)
-
-The number of points.
-"""
-
-length(dom::TinySet) = count_ones(reinterpret(UInt8, dom))
-
-"""
 """
 
 immutable TinyMap
     rule :: UInt64
     dom :: TinySet
     cod :: TinySet
+end
+
+eltype(f::TinyMap) = Pair{Int,Int}
+length(f::TinyMap) = length(dom(f))
+start(f::TinyMap) = 0
+done(f::TinyMap, state) = done(dom(f), state)
+function next(f::TinyMap, state)
+    input, state = next(dom(f), state)
+    rule = ruleof(f)
+    output = 1 + trailing_zeros(rule >> (8 * (input - 1)))
+    (input => output), state
 end
 
 """
