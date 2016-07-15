@@ -1,8 +1,9 @@
 # http://docs.julialang.org/en/release-0.4/manual/documentation/
 
 """
-    TinySets.TinyPart{N}, TinySets.TinyRelation{N}
-    eiku TinySet, TinyMap, TinyRelation
+    TinySet, TinyMap, TinyRelation
+
+(being re-designed so much detail of this comment is out of date)
 
 Parts of and relations on a set of `N` elements up to `N == 8`.
 
@@ -31,7 +32,7 @@ julia> Pt"001" ∘ Rn"101 010 101"
 Tiny 3-Part
   1 0 1
 
-julia> collect(filter(r -> eye(r) ⊆ r == r', TinyRelation{3}))
+julia> collect(filter(r -> eye(r) ⊆ r == r', ExRelation{3}))
 8-element Array{Any,1}:
  Rn"100 010 001"
  Rn"100 011 011"
@@ -54,14 +55,13 @@ julia> collect(each(Symbol, Rn"101 010 101"))
 """
 module TinySets
 
-import Base: start, done, next, eltype
-import Base: hash, getindex, length
+import Base: hash, getindex
 import Base: ∈
 import Base: zero, one, eye, diag
 import Base: ×
 import Base: ⊆
 
-export TinyPart, TinyRelation
+export ExPart, ExRelation
 export @Pt_str, @Rn_str
 export each, point
 export diagr
@@ -69,6 +69,7 @@ export randp, randr
 export ∘
 
 # new start - keep some of the old imports and exports above
+import Base: start, done, next, eltype, length
 import Base: ==, (-)
 import Base: ∩, ∪, ~
 import Base: rand

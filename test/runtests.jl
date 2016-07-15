@@ -151,7 +151,7 @@ function composition_tests(r, s, t)
     @test r^3 == r ∘ r ∘ r
 end
 
-function diagonal_tests{N}(A::TinyPart{N}, R::TinyRelation{N})
+function diagonal_tests{N}(A::ExPart{N}, R::ExRelation{N})
     @test diagr(zero(A)) == zero(R)
     @test diagr(one(A)) == eye(A) == eye(R)
     @test diag(zero(R)) == zero(A)
@@ -160,7 +160,7 @@ function diagonal_tests{N}(A::TinyPart{N}, R::TinyRelation{N})
     @test diagr(diag(R)) ⊆ R
 end
 
-function indexing_tests{N}(r::TinyRelation{N})
+function indexing_tests{N}(r::ExRelation{N})
     for j in 1:N, k in 1:N
         @test ((j,k) ∈ r) == (r[j,k] == 1)
         @test ((j,k) ∈ r) == (k ∈ r[j,:]) == (r[j,:][k] == 1)
@@ -168,7 +168,7 @@ function indexing_tests{N}(r::TinyRelation{N})
     end
 end
 
-function opposite_tests{N}(r::TinyRelation{N}, a::TinyPart{N})
+function opposite_tests{N}(r::ExRelation{N}, a::ExPart{N})
     @test r == r''
     @test a ∘ r == r' ∘ a
     for j in 1:N, k in 1:N
@@ -193,13 +193,13 @@ function product_tests(A, B)
     @test A == zero(A) || B == one(A) ∘ (A × B)
 end
 
-function each_tests{N}(A::TinyPart{N}, R::TinyRelation{N})
+function each_tests{N}(A::ExPart{N}, R::ExRelation{N})
     @test length(zero(A)) == length(Set(each(Int, zero(A)))) == 0
     @test length(zero(R)) == length(Set(each(Int, zero(R)))) == 0
     @test length(one(A)) == length(Set(each(Int, one(A)))) == N
     @test length(one(R)) == length(Set(each(Int, one(R)))) == N^2
-    @test length(TinyPart{N}) == 2^N
-    @test length(TinyRelation{N}) == 2^(N^2)
+    @test length(ExPart{N}) == 2^N
+    @test length(ExRelation{N}) == 2^(N^2)
     @test length(A) == length(Set(each(Int, A)))
     @test length(R) == length(Set(each(Int, R)))
     @test length(A) == length(Set(each(Char, A)))

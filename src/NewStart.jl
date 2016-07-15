@@ -1,8 +1,8 @@
 #"""
 #
 # This is to become new TinySets.jl, adding TinySet, TinyMap, later
-# removing old TinyPart{N} and somehow replacing TinyRelation{N} by
-# TinyRelation.
+# removing old ExPart{N} and somehow replacing ExRelation{N} by
+# ExRelation.
 #
 #"""
 

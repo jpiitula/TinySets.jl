@@ -8,12 +8,12 @@ elem(::Type{Symbol}, k::Int) = [:a,:b,:c,:d,:e,:f,:g,:h][k]
 
 bitstype 8 TinyElemIter{N,T}
 
-function each{N,T}(::Type{T}, pt::TinyPart{N})
+function each{N,T}(::Type{T}, pt::ExPart{N})
     reinterpret(TinyElemIter{N,T}, pt)
 end
 
 function start{N}(eit::TinyElemIter{N})
-    pt = reinterpret(TinyPart{N}, eit)
+    pt = reinterpret(ExPart{N}, eit)
     for k in 1:N
         k in pt && return k
     end
@@ -23,7 +23,7 @@ end
 done{N,T}(eit::TinyElemIter{N,T}, state::Int) = state == N + 1
 
 function next{N,T}(eit::TinyElemIter{N,T}, state::Int)
-    pt = reinterpret(TinyPart{N}, eit)
+    pt = reinterpret(ExPart{N}, eit)
     this = state
     for k in (this + 1):N
         k in pt && return elem(T, this), k
@@ -39,12 +39,12 @@ eltype{N,T}(::Type{TinyElemIter{N,T}}) = T
 
 bitstype 64 TinyPairIter{N,T}
 
-function each{N,T}(::Type{T}, rn::TinyRelation{N})
+function each{N,T}(::Type{T}, rn::ExRelation{N})
     reinterpret(TinyPairIter{N,T}, rn)
 end
 
 function start{N}(pit::TinyPairIter{N})
-    rn = reinterpret(TinyRelation{N}, pit)
+    rn = reinterpret(ExRelation{N}, pit)
     for r in 1:N
         for k in 1:N
             (r,k) in rn && return (r,k)
@@ -58,7 +58,7 @@ function done{N,T}(pit::TinyPairIter{N,T}, state::Tuple{Int,Int})
 end
 
 function next{N,T}(pit::TinyPairIter{N,T}, state::Tuple{Int,Int})
-    rn = reinterpret(TinyRelation{N}, pit)
+    rn = reinterpret(ExRelation{N}, pit)
     r0, k0 = state
     item = (elem(T, r0), elem(T, k0))
     for k in (k0 + 1):N
@@ -76,26 +76,26 @@ eltype{N,T}(::Type{TinyPairIter{N,T}}) = Tuple{T,T}
 
 ### Iterate over all parts - this is *it*, almost.
 
-start{N}(::Type{TinyPart{N}}) = zero(UInt)
-done{N}(::Type{TinyPart{N}}, state::UInt) = state == one(UInt) << N
-function next{N}(::Type{TinyPart{N}}, state::UInt)
-    reinterpret(TinyPart{N}, UInt8(state)), state + one(UInt)
+start{N}(::Type{ExPart{N}}) = zero(UInt)
+done{N}(::Type{ExPart{N}}, state::UInt) = state == one(UInt) << N
+function next{N}(::Type{ExPart{N}}, state::UInt)
+    reinterpret(ExPart{N}, UInt8(state)), state + one(UInt)
 end
 
-eltype{N}(::Type{TinyPart{N}}) = TinyPart{N}
+eltype{N}(::Type{ExPart{N}}) = ExPart{N}
 
 # How could Relation state be large enough to accommodate one more
 # value than there are relations? Refuse to iterate over them all?
 # Use UInt128.
 
-start{N}(::Type{TinyRelation{N}}) = zero(UInt128)
+start{N}(::Type{ExRelation{N}}) = zero(UInt128)
 
-function done{N}(::Type{TinyRelation{N}}, state::UInt128)
+function done{N}(::Type{ExRelation{N}}, state::UInt128)
     state == one(UInt128) << N^2
 end
 
-function next{N}(::Type{TinyRelation{N}}, state::UInt128)
-    reinterpret(TinyRelation{N}, UInt64(state)), state + one(UInt128)
+function next{N}(::Type{ExRelation{N}}, state::UInt128)
+    reinterpret(ExRelation{N}, UInt64(state)), state + one(UInt128)
 end
 
-eltype{N}(::Type{TinyRelation{N}}) = TinyRelation{N}
+eltype{N}(::Type{ExRelation{N}}) = ExRelation{N}
