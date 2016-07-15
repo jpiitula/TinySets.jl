@@ -169,13 +169,14 @@ A canonical image of a tiny map. Used to implement set operations on
 parts.
 """
 
-function image(f::TinyMap)
-    domain = zero(UInt64)
+image(f::TinyMap) = reinterpret(TinySet, image(f.rule))
+
+function image(rule::UInt64)
+    img = zero(UInt64)
     for t in 0:8:56
-        domain |= f.rule >> t
+        img |= rule >> t
     end
-    domain &= 0xff
-    reinterpret(TinySet, UInt8(domain))
+    UInt8(img &= 0xff)
 end
 
 """

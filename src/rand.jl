@@ -28,5 +28,11 @@ class).
 """
 
 function randpartition(dom::TinySet)
-    # todo
+    isempty(dom) && return tinymap(dom)
+    boxen = bellboxen(length(dom); least = first(dom))
+    rule = zero(UInt64)
+    for (k,b) in zip(dom, boxen)
+        rule |= UInt64(0x01 << (b - 1)) << (8 * (k - 1))
+    end
+    TinyMap(rule, dom, reinterpret(TinySet, image(rule)))
 end

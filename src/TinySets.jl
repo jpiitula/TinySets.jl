@@ -2,6 +2,7 @@
 
 """
     TinySets.TinyPart{N}, TinySets.TinyRelation{N}
+    eiku TinySet, TinyMap, TinyRelation
 
 Parts of and relations on a set of `N` elements up to `N == 8`.
 
@@ -71,13 +72,14 @@ export ∘
 import Base: ==, (-)
 import Base: ∩, ∪, ~
 import Base: rand
-export randpart
+export randpart, randpartition
 export TinySet, can, tinyset, asmap, id
 export TinyMap, tinymap, dom, cod
 export image, ismono, isepi
 export top, bot
 export ≅ # Julia uses ≡ for === which is different
 include("NewStart.jl")
+include("bell.jl")
 include("rand.jl")
 # new start
 
