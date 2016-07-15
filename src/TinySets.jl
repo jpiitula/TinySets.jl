@@ -73,13 +73,15 @@ import Base: start, done, next, eltype, length
 import Base: ==, (-)
 import Base: ∩, ∪, ~
 import Base: rand
-export randpart, randpartition
+export randpart, randpartition, randrelation
 export TinySet, can, tinyset, asmap, id
 export TinyMap, tinymap, dom, cod
+export TinyRelation
 export image, ismono, isepi
 export top, bot
 export ≅ # Julia uses ≡ for === which is different
 include("NewStart.jl")
+include("relation.jl")
 include("bell.jl")
 include("rand.jl")
 # new start

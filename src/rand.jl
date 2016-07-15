@@ -36,3 +36,16 @@ function randpartition(dom::TinySet)
     end
     TinyMap(rule, dom, reinterpret(TinySet, image(rule)))
 end
+
+"""
+    randrelation(dom::TinySet, cod::TinySet)
+"""
+
+function randrelation(dom::TinySet, cod::TinySet)
+    rule, mask = rand(UInt64), zero(UInt64)
+    good = UInt64(reinterpret(UInt8, cod))
+    for row in dom
+        mask |= good << (8 * (row - 1))
+    end
+    TinyRelation(rule & mask, dom, cod)
+end
