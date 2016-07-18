@@ -64,7 +64,6 @@ export @Pt_str, @Rn_str
 export each, point
 export diagr
 export randp, randr
-export ∘ # RING OPERATOR
 
 # new start - keep some of the old imports and exports above
 import Base: start, done, next, eltype, length
@@ -73,6 +72,7 @@ import Base: ==, (-)
 import Base: ∩, ∪, ~
 import Base: ⊆
 import Base: × # MULTIPLICATION SIGN
+export ∘ # RING OPERATOR
 export ≅ # Julia uses ≡ for === which is different
 export randpart, randpartition, randrelation
 export TinySet, can, tinyset, asmap, id
@@ -80,7 +80,8 @@ export TinyMap, tinymap, dom, cod, graph
 export TinyRelation
 export image, ismono, isepi
 export top, bot
-include("NewStart.jl")
+include("set.jl")
+include("map.jl")
 include("relation.jl")
 include("bell.jl")
 include("rand.jl")
