@@ -221,6 +221,16 @@ bot(f::TinySet) = tinyset()
 ≅(f::TinySet, g::TinySet) = f == g
 
 """
+    (f ⊆ g) == issubset(f::TinySet, g::TinySet)
+"""
+
+function issubset(f::TinySet, g::TinySet)
+    (reinterpret(UInt8, f) & ~reinterpret(UInt8, g)) == zero(UInt8)
+end
+
+⊆(f::TinySet, g::TinySet) = issubset(f, g)
+
+"""
     f ∩ g == intersection(f::TinySet, g::TinySet) :: TinySet
 """
 
@@ -279,6 +289,19 @@ function checkparts(f::TinyMap, g::TinyMap)
     ismono(g) || error("not mono")
     cod(f) == cod(g) || error("not same type")
 end
+
+"""
+    (f ⊆ g) == issubset(f::TinyMap, g::TinyMap)
+
+Only when `f` and `g` are monomaps with the same codomain.
+"""
+
+function issubset(f::TinyMap, g::TinyMap)
+    checkparts(f, g)
+    (ruleof(f) & ~ruleof(g)) == zero(UInt64)
+end
+
+⊆(f::TinyMap, g::TinyMap) = issubset(f, g)
 
 """
     f ∩ g == intersection(f::TinyMap, g::TinyMap) :: TinyMap

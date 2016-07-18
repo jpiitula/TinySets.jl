@@ -90,56 +90,43 @@ function latticealgebra(x, y, z)
     @test x ∪ ~x ≅ top(x)
 end
 
-info("=== New lattice algebra tests")
-let cod = rand(TinySet)
-    latticealgebra(tinyset(), tinyset(), tinyset())
-    latticealgebra(rand(TinySet), rand(TinySet), rand(TinySet))
-    latticealgebra(randpart(cod), randpart(cod), randpart(cod))
-end
-info("=== New lattice algebra tests done")
-
 function latticeorder(x, y, z)
     @test bot(x) ⊆ x ⊆ top(x)
     @test x ∩ z ⊆ x
     @test x ⊆ x ∪ z
 end
 
-info("=== New lattice order tests not runnable yet")
+info("=== New lattice algebra tests")
 
-# need issubset and even then there is a mix of maps and sets when
-# testing on sets - shorthand is always trouble
-
-function lattice_tests(x, y, z)
-    @test x == x
-    @test zero(x) ⊆ x ⊆ one(x)
-    @test x ∩ x == x 
-    @test x ∪ x == x
-    @test x ∩ z == z ∩ x
-    @test x ∪ z == z ∪ x
-    @test x ∩ (y ∩ z) == (x ∩ y) ∩ z
-    @test x ∪ (y ∪ z) == (x ∪ y) ∪ z
-    @test x ∩ (y ∪ z) == (x ∩ y) ∪ (x ∩ z)
-    @test x ∪ (y ∩ z) == (x ∪ y) ∩ (x ∪ z)
-    @test x ∩ (x ∪ z) == x
-    @test x ∪ (x ∩ z) == x
-    @test x ∩ one(x) == x
-    @test x ∩ zero(x) == zero(x)
-    @test x ∪ one(x) == one(x)
-    @test x ∪ zero(x) == x
-    @test x - zero(x) == x
-    @test zero(x) - x == zero(x)
-    @test x - x == zero(x)
-    @test x - one(x) == zero(x)
-    @test one(x) - x == ~x
-    @test x - z == x ∩ ~z
-    @test ~~x == x
-    @test ~(x ∩ z) == ~x ∪ ~z
-    @test ~(x ∪ z) == ~x ∩ ~z
-    @test x ∩ ~x == zero(x)
-    @test x ∪ ~x == one(x)
-    @test x ∩ z ⊆ x
-    @test x ⊆ x ∪ z
+let empty = tinyset()
+    latticealgebra(empty, empty, empty)
+    latticeorder(empty, empty, empty)
 end
+
+let
+    s = rand(TinySet)
+    t = rand(TinySet)
+    u = rand(TinySet)
+    latticealgebra(s, t, u)
+    latticeorder(s, t, u)
+end
+
+let cod = rand(TinySet)
+    i = randpart(cod)
+    j = randpart(cod)
+    k = randpart(cod)
+    latticealgebra(i, j, k)
+    latticeorder(i, j, k)
+end
+
+let dom = rand(TinySet) ; cod = rand(TinySet)
+    r = randrelation(dom, cod)
+    s = randrelation(dom, cod)
+    t = randrelation(dom, cod)
+    latticealgebra(r, s, t)
+    latticeorder(r, s, t)
+end
+info("=== New lattice algebra tests done")
 
 function composition_tests(r, s, t)
     @test eye(r) ∘ r == r == r ∘ eye(r)
@@ -221,12 +208,6 @@ end
 let
     a, b, c = randp(3), randp(3), randp(3)
     r, s, t = randr(3), randr(3), randr(3)
-
-    info("Lattice tests on random 3-parts")
-    lattice_tests(a, b, c)
-
-    info("Lattice tests on random 3-relations")
-    lattice_tests(r, s, t)
 
     info("Composition tests on random 3-relations")
     composition_tests(r, s, t)

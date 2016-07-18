@@ -58,8 +58,6 @@ module TinySets
 import Base: hash, getindex
 import Base: ∈
 import Base: zero, one, eye, diag
-import Base: ×
-import Base: ⊆
 
 export ExPart, ExRelation
 export @Pt_str, @Rn_str
@@ -70,16 +68,18 @@ export ∘
 
 # new start - keep some of the old imports and exports above
 import Base: start, done, next, eltype, length
+import Base: rand
 import Base: ==, (-)
 import Base: ∩, ∪, ~
-import Base: rand
+import Base: ⊆
+import Base: × # MULTIPLICATION SIGN
+export ≅ # Julia uses ≡ for === which is different
 export randpart, randpartition, randrelation
 export TinySet, can, tinyset, asmap, id
 export TinyMap, tinymap, dom, cod
 export TinyRelation
 export image, ismono, isepi
 export top, bot
-export ≅ # Julia uses ≡ for === which is different
 include("NewStart.jl")
 include("relation.jl")
 include("bell.jl")
