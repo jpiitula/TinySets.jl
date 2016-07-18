@@ -13,11 +13,15 @@ ruleof(a::TinyRelation) = a.rule
 dom(a::TinyRelation) = a.dom
 cod(a::TinyRelation) = a.cod
 
+graph(f::TinyMap) = TinyRelation(ruleof(f), dom(f), cod(f))
+
 "Aux to iterate TinyRelation using TinySet iterator"
 function tinyrow(a::TinyRelation, r::Int)
      row = (ruleof(a) >> (8 * (r - 1))) & 0xff
      reinterpret(TinySet, UInt8(row))
 end
+
+tinyrow(f::TinyMap, r::Int) = tinyrow(graph(f), r)
 
 # A relation is a set of pairs, so iteration order does not matter, so
 # it can as well be "row by row" where a "row" means the values that
@@ -98,3 +102,22 @@ end
 
 complement(f::TinyRelation) = top(f) - f
 ~(f::TinyRelation) = complement(f)
+
+"""
+    (g ∘ f) == composition(g::TinyMap, f::TinyMap) :: TinyMap
+
+    (s ∘ r) == composition(s::TinyRelation, r::TinyRelation) :: TinyRelation
+"""
+
+function composition{T<:Union{TinyMap,TinyRelation}}(g::T, f::T)
+    dom(g) == cod(f) || error("not of type")
+    rule = zero(UInt64)
+    for (input,common) in f
+        output = UInt64(reinterpret(UInt8, tinyrow(g, common)))
+        rule |= output << (8 * (input - 1))
+    end
+    T(rule, dom(f), cod(g))
+end
+
+∘(g::TinyMap, f::TinyMap) = composition(g, f)
+∘(s::TinyRelation, r::TinyRelation) = composition(s, r)

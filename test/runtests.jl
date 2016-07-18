@@ -128,9 +128,20 @@ let dom = rand(TinySet) ; cod = rand(TinySet)
 end
 info("=== New lattice algebra tests done")
 
+let
+    a = rand(TinySet)
+    b = rand(TinySet)
+    c = rand(TinySet)
+    d = rand(TinySet)
+    r = randrelation(a, b)
+    s = randrelation(b, c)
+    t = randrelation(c, d)
+    @test graph(id(cod(r))) ∘ r == r
+    @test r ∘ graph(id(dom(r))) == r
+    @test t ∘ (s ∘ r) == (t ∘ s) ∘ r
+end
+
 function composition_tests(r, s, t)
-    @test eye(r) ∘ r == r == r ∘ eye(r)
-    @test r ∘ (s ∘ t) == (r ∘ s) ∘ t
     @test (r ∘ s)' == s' ∘ r'
     @test r^0 == eye(r)
     @test r^1 == r

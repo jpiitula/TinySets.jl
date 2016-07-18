@@ -64,7 +64,7 @@ export @Pt_str, @Rn_str
 export each, point
 export diagr
 export randp, randr
-export ∘
+export ∘ # RING OPERATOR
 
 # new start - keep some of the old imports and exports above
 import Base: start, done, next, eltype, length
@@ -76,7 +76,7 @@ import Base: × # MULTIPLICATION SIGN
 export ≅ # Julia uses ≡ for === which is different
 export randpart, randpartition, randrelation
 export TinySet, can, tinyset, asmap, id
-export TinyMap, tinymap, dom, cod
+export TinyMap, tinymap, dom, cod, graph
 export TinyRelation
 export image, ismono, isepi
 export top, bot
