@@ -68,6 +68,7 @@ export randp, randr
 # new start - keep some of the old imports and exports above
 import Base: start, done, next, eltype, length
 import Base: rand
+import Base: ctranspose # for f' and r'
 import Base: ==, (-)
 import Base: ∩, ∪, ~
 import Base: ⊆
@@ -75,12 +76,23 @@ import Base: × # MULTIPLICATION SIGN
 export ∘ # RING OPERATOR
 export ≅ # Julia uses ≡ for === which is different
 export randpart, randpartition, randrelation
+export randmap, randmono, randepi, randiso
+export domto, codto
 export TinySet, can, tinyset, asmap, id
 export TinyMap, tinymap, dom, cod, graph
-export TinyRelation
-export image, ismono, isepi
+export TinyRelation, composition, opposite
+export image, ismono, isepi, isiso
 export top, bot
 include("set.jl")
+
+function setbit(rule::UInt64, r::Int, k::Int)
+    rule | one(UInt64) << (8 * (r - 1) + (k - 1))
+end
+
+function setbit(set::UInt8, k::Int)
+    set | one(UInt8) << (k - 1)
+end
+
 include("map.jl")
 include("relation.jl")
 include("bell.jl")

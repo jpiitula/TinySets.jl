@@ -137,3 +137,40 @@ function complement(f::TinySet)
 end
 
 ~(f::TinySet) = complement(f)
+
+"""
+    domto(set::TinySet, newdom) :: TinyMap
+Makes a tiny isomap that pairs values (in `1:8`) from `newdom` with
+the points of `set`. Checks that there are at least as many values in
+`newdom` as in `set` and they are distinct from each other.
+"""
+
+function domto(set::TinySet, newdom)
+    rule = zero(UInt64)
+    dom = zero(UInt8)
+    for (input,output) in zip(newdom,set)
+        rule = setbit(rule, input, output)
+        dom = setbit(dom, input)
+    end
+    count_ones(dom) == length(set) || error("mismatch")
+    TinyMap(rule, reinterpret(TinySet, dom), set)
+end
+
+"""
+    codto(set::TinySet, newcod) :: TinyMap
+
+Makes a tiny isomap that pairs the points of `set` with values from
+`newcod` (in `1:8`). Checks that there are at least as many values in
+`newcod` as in `set` and they are distinct from each other.
+"""
+
+function codto(set::TinySet, newcod)
+    rule = zero(UInt64)
+    cod = zero(UInt8)
+    for (input,output) in zip(set,newcod)
+        rule = setbit(rule, input, output)
+        cod = setbit(cod, output)
+    end
+    count_ones(cod) == length(set) || error("mismatch")
+    TinyMap(rule, set, reinterpret(TinySet, cod))
+end

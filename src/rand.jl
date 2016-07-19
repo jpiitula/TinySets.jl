@@ -49,3 +49,45 @@ function randrelation(dom::TinySet, cod::TinySet)
     end
     TinyRelation(rule & mask, dom, cod)
 end
+
+function randmap(dom::TinySet, cod::TinySet)
+    isempty(dom) <= isempty(cod) || error("no such map")
+    rule = zero(UInt64)
+    output = collect(cod)
+    for input in dom
+        rule = setbit(rule, input, rand(output))
+    end
+    TinyMap(rule, dom, cod)
+end
+
+function randmono(dom::TinySet, cod::TinySet)
+    length(dom) <= length(cod) || error("no such map")
+    rule = zero(UInt64)
+    output = shuffle!(collect(cod))
+    for (k,input) in enumerate(dom)
+        rule = setbit(rule, input, output[k])
+    end
+    TinyMap(rule, dom, cod)
+end
+
+function randepi(dom::TinySet, cod::TinySet)
+    length(dom) >= length(cod) || error("no such map")
+    values = collect(cod)
+    rest = [ rand(values) for k in 1:(length(dom) - length(cod)) ]
+    append!(values, rest)
+    shuffle!(values)
+    rule = zero(UInt64)
+    for (input,output) in zip(dom,values)
+         rule = setbit(rule, input,output)
+    end
+    TinyMap(rule, dom, cod)
+end
+
+function randiso(dom::TinySet, cod::TinySet)
+    length(dom) == length(cod) || error("no such map")
+    rule = zero(UInt64)
+    for (input,output) in zip(dom,shuffle!(collect(cod)))
+        rule = setbit(rule, input, output)
+    end
+    TinyMap(rule, dom, cod)
+end

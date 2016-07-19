@@ -121,3 +121,19 @@ end
 
 ∘(g::TinyMap, f::TinyMap) = composition(g, f)
 ∘(s::TinyRelation, r::TinyRelation) = composition(s, r)
+
+function inverse(f::TinyMap)
+    isiso(f) || error("not invertible")
+    TinyMap(ruleof(opposite(graph(f))), cod(f), dom(f))
+end
+
+function opposite(r::TinyRelation)
+    rule = zero(UInt64)
+    for (input,output) in r
+        rule = setbit(rule, output, input)
+    end
+    TinyRelation(rule, cod(r), dom(r))
+end
+
+ctranspose(f::TinyMap) = inverse(f)
+ctranspose(r::TinyRelation) = opposite(r)

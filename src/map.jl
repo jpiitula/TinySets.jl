@@ -129,6 +129,8 @@ ismono(f::TinyMap) = length(image(f)) == length(dom(f))
 
 isepi(f::TinyMap) = length(image(f)) == length(cod(f))
 
+isiso(f::TinyMap) = ismono(f) && isepi(f)
+
 """
     checkparts(f, g)
 
@@ -233,3 +235,43 @@ function complement(f::TinyMap)
 end
 
 ~(f::TinyMap) = complement(f)
+
+"""
+    domto(f::TinyMap, newdom)
+Composes `f` with a tiny isomap that pairs values from `newdom` with
+the points of `dom(f)`. Checks that there are at least as many values
+in `newdom` as in `dom(f)` and they are distinct from each other.
+"""
+
+function domto(f::TinyMap, newdom)
+    rule = zero(UInt64)
+    from = zero(UInt8)
+    for (input,old) in zip(newdom,f)
+        _,output = old
+        rule = setbit(rule, input, output)
+        from = setbit(from, input)
+    end
+    count_ones(from) == length(dom(f)) || error("mismatch")
+    TinyMap(rule, reinterpret(TinySet, from), cod(f))
+end
+
+"""
+    codto(f::TinyMap, newcod)
+Composes with `f` a tiny isomap that pairs the points of `cod(f)` with
+values from `newcod`. Checks that there are at least as many values in
+`newcod` as in `cod(f)` and they are distinct from each other.
+"""
+
+function codto(f::TinyMap, newcod)
+    rule = zero(UInt64)
+    to = zero(UInt8)
+    pairing = Dict(zip(cod(f), newcod))
+    for (input,old) in f
+        rule = setbit(rule, input, pairing[old])
+    end
+    for (old,new) in pairing
+        to = setbit(to, new)
+    end
+    count_ones(to) == length(cod(f)) || error("mismatch")
+    TinyMap(rule, dom(f), reinterpret(TinySet, to))
+end

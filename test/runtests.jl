@@ -59,7 +59,39 @@ info("=== new start tests ===")
 @test ~can(0) == can(8)
 @test ~asmap(can(8)) == asmap(can(0))
 @test ~asmap(can(0)) == asmap(can(8))
+@test ismono(randmono(can(3), can(4)))
+@test isepi(randepi(can(4), can(3)))
+@test isiso(randiso(can(4), can(4)))
 info("=== new start tests done ===")
+
+let
+    set = tinyset(3,1,4)
+
+    f = domto(set, 1:8)
+    @test dom(f) == tinyset(1,2,3)
+    @test cod(f) == tinyset(3,1,4)
+    @test isiso(f)
+
+    g = codto(set, 1:8)
+    @test dom(g) == tinyset(3,1,4)
+    @test cod(g) == tinyset(1,2,3)
+    @test isiso(g)
+end
+
+let
+    f = tinymap(tinyset(3,1,4), 2 => 3, 7 => 4)
+
+    g = domto(f, 1:8)
+    @test dom(g) == tinyset(1,2)
+    @test cod(g) == tinyset(3,1,4)
+    @test ismono(g)
+    @test g == tinymap(cod(f), 1 => 3, 2 => 4)
+
+    h = codto(f, 1:8)
+    @test dom(h) == tinyset(2,7)
+    @test cod(h) == tinyset(1,2,3)
+    @test h == tinymap(tinyset(1,2,3), 2 => 2, 7 => 3) 
+end
 
 function latticealgebra(x, y, z)
     @test x ≅ x
@@ -138,11 +170,35 @@ let
     t = randrelation(c, d)
     @test graph(id(cod(r))) ∘ r == r
     @test r ∘ graph(id(dom(r))) == r
+    @test r == r''
+    @test (s ∘ r)' == r' ∘ s'
     @test t ∘ (s ∘ r) == (t ∘ s) ∘ r
+    while isempty(a) < isempty(b)
+        b = rand(TinySet)
+    end
+    while isempty(b) < isempty(c)
+        c = rand(TinySet)
+    end
+    while isempty(c) < isempty(d)
+        d = rand(TinySet)
+    end
+    f = randmap(a, b)
+    g = randmap(b, c)
+    h = randmap(c, d)
+    @test id(cod(f)) ∘ f == f
+    @test f ∘ id(dom(f)) == f
+    @test h ∘ (g ∘ f) == (h ∘ g) ∘ f
+
+    i = codto(d, shuffle(collect(1:8)))
+    i ∘ i' == id(dom(i))
+    i' ∘ i == id(cod(i))
+
+    j = domto(d, shuffle(collect(1:8)))
+    j ∘ j' == id(dom(j))
+    j' ∘ j == id(cod(j))
 end
 
 function composition_tests(r, s, t)
-    @test (r ∘ s)' == s' ∘ r'
     @test r^0 == eye(r)
     @test r^1 == r
     @test r^2 == r ∘ r
@@ -167,7 +223,6 @@ function indexing_tests{N}(r::ExRelation{N})
 end
 
 function opposite_tests{N}(r::ExRelation{N}, a::ExPart{N})
-    @test r == r''
     @test a ∘ r == r' ∘ a
     for j in 1:N, k in 1:N
         @test ((j,k) ∈ r) == ((k,j) ∈ r')
