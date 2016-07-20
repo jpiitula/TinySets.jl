@@ -4,9 +4,7 @@ Generate all parts.
 
 Generate all partitions.
 
-Generate all relations.
-
-And generate all left and right inverses of a map.
+Generate all left and right inverses of a map.
 
               ; also eachmono(A, B), eachepi(A, B)
 randmap(A, B) ; also randmono(A, B), randepi(A, B)
@@ -17,7 +15,7 @@ A TinyRelation from a TinySet A to a TinySet B is a part of A ⨯ B with
 canonical projections or something like that. Is a part of a canonical
 product, maybe.
 
-eachrelation(A, B) ; eachorder(A, B)
+                   ; eachorder(A, B)
 randrelation(A, B) ; randorder(A, B)
 
 Maybe diagrelation(A)? and diag(R)::TinySet? Or what?

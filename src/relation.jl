@@ -53,6 +53,8 @@ tinyrow(f::TinyMap, r::Int) = tinyrow(graph(f), r)
 # the order of the pairs does not matter: should a nicer iterator use
 # a different order, do so.
 
+length(a::TinyRelation) = count_ones(ruleof(a))
+eltype(a::TinyRelation) = Tuple{Int,Int}
 start(a::TinyRelation) = (tinyrow(a, 1), 1, 0)
 function done(a::TinyRelation, state)
     set, r, k = state
