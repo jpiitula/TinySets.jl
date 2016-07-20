@@ -33,6 +33,10 @@ function next(data::TinySet, state)
     state, state
 end
 
+function ∈(k::Int, a::TinySet)
+    reinterpret(UInt8, a) & (one(UInt8) << (k - 1)) > zero(UInt8)
+end
+
 """
     can(n) :: TinySet
 

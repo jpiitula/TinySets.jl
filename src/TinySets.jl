@@ -16,10 +16,6 @@ finite topological spaces.
 * `tinyset(3,1,4)` is a three-point set.
 * `tinymap(tinyset(3,1,4), 1 => 1)` is a point of `tinyset(3,1,4)`.
 
-(A tiny relation can in principle be identified in the same way by its
-domain, codomain, and its pairs of points of the underlying set. At
-the time of writing this is not implemented. Todo? Todo!)
-
 # Contents
 
 * Boolean lattice operations, inclusion predicate
@@ -58,7 +54,6 @@ julia> collect(each(Symbol, Rn"101 010 101"))
 module TinySets
 
 import Base: hash, getindex
-import Base: ∈
 import Base: zero, one, eye, diag
 
 export ExPart, ExRelation
@@ -74,6 +69,7 @@ import Base: ctranspose # for f' and r'
 import Base: ==, (-)
 import Base: ∩, ∪, ~
 import Base: ⊆
+import Base: ∈ # ELEMENT OF
 import Base: × # MULTIPLICATION SIGN
 export ∘ # RING OPERATOR
 export ≅ # APPROXIMATELY EQUAL TO; Julia reserves ≡ for its ===
@@ -82,7 +78,7 @@ export randmap, randmono, randepi, randiso
 export domto, codto
 export TinySet, can, tinyset, asmap, id
 export TinyMap, tinymap, dom, cod, graph
-export TinyRelation, composition, opposite
+export TinyRelation, tinyrelation, composition, opposite
 export image, ismono, isepi, isiso
 export top, bot
 

@@ -3,7 +3,7 @@
 
 A tiny relation is a part of a product and a map between tiny sets in
 a different category. It can be specified by giving its domain and
-codomain and points (may not be implemented yet).
+codomain and points.
 
 Tiny relations with the same domain and domain support underlying
 Boolean algebras. As maps they are composable. There is always an
@@ -25,6 +25,16 @@ ruleof(a::TinyRelation) = a.rule
 
 dom(a::TinyRelation) = a.dom
 cod(a::TinyRelation) = a.cod
+
+function tinyrelation(dom::TinySet, cod::TinySet, points...)
+    rule = zero(UInt64)
+    for (input,output) in points
+        input ∈ dom || error("invalid point")
+        output ∈ cod || error("invalid point")
+        rule = setbit(rule, input, output)
+    end
+    TinyRelation(rule, dom, cod)
+end
 
 graph(f::TinyMap) = TinyRelation(ruleof(f), dom(f), cod(f))
 
