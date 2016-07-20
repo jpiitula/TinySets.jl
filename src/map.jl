@@ -1,4 +1,16 @@
 """
+    TinyMap
+
+A tiny map is a function from a tiny set to a tiny set. A tiny map can
+be specified by giving its codomain and the value at each point of the
+domain. There are `n^m` functions from an `m`-point set to an
+`n`-point set.
+
+* `collect(tinymap(tinyset(3,1,4), 2 => 3, 5 => 4)) == [2=>3,5=>4]`
+
+Maps with compatible types can be composed. Monomaps support Boolean
+algebras as parts of a shared codomain.
+
 """
 
 immutable TinyMap

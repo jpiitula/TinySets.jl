@@ -1,22 +1,24 @@
 # http://docs.julialang.org/en/release-0.4/manual/documentation/
 
 """
-    TinySet, TinyMap, TinyRelation
+    TinySets: TinySet, TinyMap, TinyRelation
 
-(being re-designed so much detail of this comment is out of date)
+/Tiny sets/ are the 256 parts of an underlying 8-element set. /Tiny
+maps/ and /tiny relations/ are functions and relations between tiny
+sets.
 
-Parts of and relations on a set of `N` elements up to `N == 8`.
-
-The module is intended for conceptual exploration. There are more than
+The module is intended for conceptual exploration. There are easily
 enough tiny things to be of interest, and they can be used to study
-much bigger worlds: certain types of tiny relations correspond to
+much bigger worlds. Certain types of tiny relations correspond to
 finite topological spaces.
 
-Parts are considered **as parts of** and relations **as relations on**
-the `N`-element set. The elements have standard names and nicknames.
+* `tinyset(1)` and `tinyset(3)` are one-point sets.
+* `tinyset(3,1,4)` is a three-point set.
+* `tinymap(tinyset(3,1,4), 1 => 1)` is a point of `tinyset(3,1,4)`.
 
-* `Pt"1"` is {1} as a part of {1}, aka {a} as a part of {a})
-* `Pt"100"` is {1} as a part of {1,2,3}, aka {a} as a part of {a,b,c}
+(A tiny relation can in principle be identified in the same way by its
+domain, codomain, and its pairs of points of the underlying set. At
+the time of writing this is not implemented. Todo? Todo!)
 
 # Contents
 
@@ -26,7 +28,7 @@ the `N`-element set. The elements have standard names and nicknames.
 * Random parts and relations
 * Iteration protocols
 
-# Examples
+# Examples (obsolete)
 ```julia
 julia> Pt"001" ∘ Rn"101 010 101"
 Tiny 3-Part
@@ -74,7 +76,7 @@ import Base: ∩, ∪, ~
 import Base: ⊆
 import Base: × # MULTIPLICATION SIGN
 export ∘ # RING OPERATOR
-export ≅ # Julia uses ≡ for === which is different
+export ≅ # APPROXIMATELY EQUAL TO; Julia reserves ≡ for its ===
 export randpart, randpartition, randrelation
 export randmap, randmono, randepi, randiso
 export domto, codto
@@ -83,7 +85,6 @@ export TinyMap, tinymap, dom, cod, graph
 export TinyRelation, composition, opposite
 export image, ismono, isepi, isiso
 export top, bot
-include("set.jl")
 
 function setbit(rule::UInt64, r::Int, k::Int)
     rule | one(UInt64) << (8 * (r - 1) + (k - 1))
@@ -93,6 +94,7 @@ function setbit(set::UInt8, k::Int)
     set | one(UInt8) << (k - 1)
 end
 
+include("set.jl")
 include("map.jl")
 include("relation.jl")
 include("bell.jl")

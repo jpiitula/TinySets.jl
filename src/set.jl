@@ -1,12 +1,17 @@
 """
     TinySet
 
-A set of up to eight points, considered canonically as a part of a
-canonical eight-point set. Nine of these can be made with `can(0)`,
-..., `can(8)`, and any part of `can(8)` by listing the points as in
-`tinyset(1,3,4)`.
+A tiny set is a part of (a monomap to) an underlying 8-point set whose
+points are named with the integers from `1` to `8`. There are 256 tiny
+sets.
 
-(Describe convert method to TinyMap. Is there a convert method?)
+* `collect(tinyset(3,1,4)) == [1,3,4]`
+
+Tiny sets participate in different systems. They support Boolean
+lattice operations as parts in the underlying category. With respect
+to the composition of tiny maps and relations, they correspond to
+identity maps in the more structured categories.
+
 """
 
 bitstype 8 TinySet

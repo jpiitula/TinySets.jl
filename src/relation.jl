@@ -1,3 +1,16 @@
+"""
+    TinyRelation
+
+A tiny relation is a part of a product and a map between tiny sets in
+a different category. It can be specified by giving its domain and
+codomain and points (may not be implemented yet).
+
+Tiny relations with the same domain and domain support underlying
+Boolean algebras. As maps they are composable. There is always an
+opposite relation.
+
+"""
+
 immutable TinyRelation
     rule::UInt64
     dom::TinySet
