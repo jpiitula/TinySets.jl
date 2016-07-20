@@ -15,6 +15,7 @@ finite topological spaces.
 * `tinyset(1)` and `tinyset(3)` are one-point sets.
 * `tinyset(3,1,4)` is a three-point set.
 * `tinymap(tinyset(3,1,4), 1 => 1)` is a point of `tinyset(3,1,4)`.
+* `graph(id(tinyset(3,1,4)))` is an identity relation
 
 # Contents
 
@@ -75,6 +76,7 @@ export ∘ # RING OPERATOR
 export ≅ # APPROXIMATELY EQUAL TO; Julia reserves ≡ for its ===
 export randpart, randpartition, randrelation
 export randmap, randmono, randepi, randiso
+export eachmap
 export domto, codto
 export TinySet, can, tinyset, asmap, id
 export TinyMap, tinymap, dom, cod, graph
@@ -95,6 +97,7 @@ include("map.jl")
 include("relation.jl")
 include("bell.jl")
 include("rand.jl")
+include("each.jl")
 # new start
 
 # old design, going away

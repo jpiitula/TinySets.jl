@@ -1,7 +1,5 @@
 * More iteration protocols
 
-Generate all maps.
-
 Generate all parts.
 
 Generate all partitions.
@@ -10,15 +8,10 @@ Generate all relations.
 
 And generate all left and right inverses of a map.
 
-* Some generation rumination
-
-eachmap(A, B) ; also eachmono(A, B), eachepi(A, B)
+              ; also eachmono(A, B), eachepi(A, B)
 randmap(A, B) ; also randmono(A, B), randepi(A, B)
 
-eachpoint(A) -- same as eachmap(top(1), A) but makes a point or two
-randpoint(A) -- likewise
-
-Maps can be factored. Maps can have sections and retractions.
+Maps factor. Maps have sections and retractions.
 
 A TinyRelation from a TinySet A to a TinySet B is a part of A ⨯ B with
 canonical projections or something like that. Is a part of a canonical
