@@ -76,6 +76,7 @@ export ∘ # RING OPERATOR
 export ≅ # APPROXIMATELY EQUAL TO; Julia reserves ≡ for its ===
 export randpart, randpartition, randrelation
 export randmap, randmono, randepi, randiso
+export injections, surjections # combinatorical generation in general
 export eachmap, eachrelation
 export domto, codto
 export TinySet, can, tinyset, asmap, id
@@ -97,6 +98,7 @@ include("map.jl")
 include("relation.jl")
 include("bell.jl")
 include("rand.jl")
+include("iter.jl") # combinatorical generation in general
 include("each.jl")
 # new start
 

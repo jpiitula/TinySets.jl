@@ -65,6 +65,22 @@ info("=== new start tests ===")
 info("=== new start tests done ===")
 
 let
+    # injections to given codomain from domain of given size
+    @test length(collect(injections("abcde", 3))) == 60
+    @test length(collect(injections("abc", 3))) == 6
+    @test length(collect(injections("abc", 4))) == 0
+    @test length(collect(injections("abc", 0))) == 1
+    @test length(collect(injections("", 0))) == 1
+    @test length(collect(injections("", 1))) == 0
+
+    # surjections from given domain to codomain of given size
+    @test length(collect(surjections("abcde", 3))) == 150
+    @test length(collect(surjections("abc", 3))) == 6
+    @test length(collect(surjections("abc", 4))) == 0
+    # Julia partitions(array, n) has trouble with empties
+end
+
+let
     set = tinyset(3,1,4)
 
     f = domto(set, 1:8)
