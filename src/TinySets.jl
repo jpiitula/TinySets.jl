@@ -64,7 +64,7 @@ export randmap, randmono, randepi, randiso
 export injections, surjections # combinatorical generation in general
 export eachmap, eachmono, eachepi, eachrelation
 export domto, codto
-export TinySet, can, tinyset, asmap, id
+export TinySet, tinyset, asmap, id
 export TinyMap, tinymap, dom, cod, graph
 export TinyRelation, tinyrelation, composition, opposite
 export image, ismono, isepi, isiso

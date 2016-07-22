@@ -37,26 +37,28 @@ function ∈(k::Int, a::TinySet)
     reinterpret(UInt8, a) & (one(UInt8) << (k - 1)) > zero(UInt8)
 end
 
-"""
-    can(n) :: TinySet
-
-A "canonical" part of `can(8)` for 0, 1, 2, 3, ..., 8 points.
-"""
-
-can(n) = reinterpret(TinySet, 0xff >> (8 - n))
+#"""
+#    can(n) :: TinySet
+#
+#A "canonical" part of `can(8)` for 0, 1, 2, 3, ..., 8 points.
+#"""
+#
+#can(n) = reinterpret(TinySet, 0xff >> (8 - n))
 
 """
     tinyset(n::Int...) :: TinySet
-
-The set of points `n`, all between `1` and `8`, considered canonically
-as a part of `can(8)`.
+    tinyset(points) :: TinySet
+The set of the given points, each between `1` and `8`, considered
+canonically as a part of an 8-point set.
 """
 
-function tinyset(points...)
+tinyset(points::Int...) = tinyset(points)
+
+function tinyset(points)
     s = 0x00
     for n in points
         1 <= n <= 8 || error("invalid point")
-        s |= 0x01 << (n - 1)
+        s = setbit(s, n)
     end
     reinterpret(TinySet, s)
 end
@@ -66,23 +68,22 @@ end
 # tiny *maps* in terms of their canonical *images*.
 
 """
-    top(f::TinySet) == can(8) :: TinySet
-
-A largest part of `can(8)` as a TinySet.
+    top(f::TinySet) == tinyset(1:8) :: TinySet
+The largest tiny set.
 """
 
-top(f::TinySet) = can(8)
+top(f::TinySet) = tinyset(1:8)
 
 """
     bot(f::TinySet) == tinyset() :: TinySet
-
-A smallest part of `can(8)` as a TinySet.
+The smallest tiny set.
 """
 
 bot(f::TinySet) = tinyset()
 
-# Equivalence of tiny sets as parts of can(8), like top and bot for
-# TinySet, lets them serve as short-hand parts. Main parts are maps.
+# Equivalence of tiny sets as parts of tinyset(1:8), like top and bot
+# for TinySet, lets them serve as short-hand parts. Main parts are
+# maps.
 
 """
     (f ≅ g) == isequivalent(f::TinySet, g::TinySet) == (f == g)

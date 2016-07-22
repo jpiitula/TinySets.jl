@@ -1,51 +1,37 @@
 using TinySets
 using Base.Test
 
-# write your own tests here
-@test 1 == 1
+include("set.jl")
 
 info("=== new start tests ===")
-@test 1 == 1
-@test length(can(0)) == 0
-@test length(can(3)) == 3
-@test can(0) == tinyset()
-@test can(3) == tinyset(1,2,3)
-@test eltype(tinyset()) == Int
-@test length(tinyset()) == 0
-@test isempty(tinyset())
-@test collect(tinyset()) == Int[]
-@test eltype(tinyset(3,1,4)) == Int
-@test length(tinyset(3,1,4)) == 3
-@test !isempty(tinyset(3,1,4))
-@test collect(tinyset(3,1,4)) == [1,3,4]
-@test dom(tinymap(can(3))) == tinyset()
-@test cod(tinymap(can(3))) == can(3)
-@test dom(tinymap(can(3), 1 => 2)) == can(1)
-@test cod(tinymap(can(3), 1 => 2)) == can(3)
-@test tinymap(can(3)) == tinymap(can(3))
-@test tinymap(can(3)) != tinymap(can(3), 1 => 2)
-@test id(can(3)) == tinymap(can(3), 1 => 1, 2 => 2, 3 => 3)
-@test isempty(tinymap(can(5)))
-@test length(tinymap(can(5))) == 0
-@test eltype(tinymap(can(5))) == Pair{Int,Int}
-@test collect(tinymap(can(5))) == Pair{Int,Int}[]
-@test !isempty(tinymap(can(5), 3 => 1, 1 => 3, 4 => 4))
-@test length(tinymap(can(5), 3 => 1, 1 => 3, 4 => 4)) == 3
-@test eltype(tinymap(can(5), 3 => 1, 1 => 3, 4 => 4)) == Pair{Int,Int}
-@test (collect(tinymap(can(5), 3 => 1, 1 => 3, 4 => 4)) ==
+@test dom(tinymap(tinyset(1:3))) == tinyset()
+@test cod(tinymap(tinyset(1:3))) == tinyset(1:3)
+@test dom(tinymap(tinyset(1:3), 1 => 2)) == tinyset(1:1)
+@test cod(tinymap(tinyset(1:3), 1 => 2)) == tinyset(1:3)
+@test tinymap(tinyset(1:3)) == tinymap(tinyset(1:3))
+@test tinymap(tinyset(1:3)) != tinymap(tinyset(1:3), 1 => 2)
+@test id(tinyset(1:3)) == tinymap(tinyset(1:3), 1 => 1, 2 => 2, 3 => 3)
+@test isempty(tinymap(tinyset(1:5)))
+@test length(tinymap(tinyset(1:5))) == 0
+@test eltype(tinymap(tinyset(1:5))) == Pair{Int,Int}
+@test collect(tinymap(tinyset(1:5))) == Pair{Int,Int}[]
+@test !isempty(tinymap(tinyset(1:5), 3 => 1, 1 => 3, 4 => 4))
+@test length(tinymap(tinyset(1:5), 3 => 1, 1 => 3, 4 => 4)) == 3
+@test eltype(tinymap(tinyset(1:5), 3 => 1, 1 => 3, 4 => 4)) == Pair{Int,Int}
+@test (collect(tinymap(tinyset(1:5), 3 => 1, 1 => 3, 4 => 4)) ==
        Pair[1 => 3, 3 => 1, 4 => 4])
-@test image(id(can(3))) == can(3)
+@test image(id(tinyset(1:3))) == tinyset(1:3)
 @test image(id(tinyset(3,1,4))) == tinyset(3,1,4)
 @test ismono(id(tinyset(3,1,4)))
-@test ismono(tinymap(can(3), 1 => 2, 2 => 1))
-@test !ismono(tinymap(can(3), 1 => 2, 2 => 2))
+@test ismono(tinymap(tinyset(1:3), 1 => 2, 2 => 1))
+@test !ismono(tinymap(tinyset(1:3), 1 => 2, 2 => 2))
 @test isepi(id(tinyset(3,1,4)))
-@test isepi(tinymap(can(3), 1 => 2, 2 => 1, 3 => 3))
-@test !isepi(tinymap(can(3), 1 => 2, 2 => 1, 3 => 2))
-@test can(2) ∩ can(3) == can(2)
-@test can(2) ∪ can(3) == can(3)
-@test asmap(tinyset(3,1,4)) == tinymap(can(8), 3 => 3, 1 => 1, 4 => 4)
-@test asmap(can(8)) == id(can(8))
+@test isepi(tinymap(tinyset(1:3), 1 => 2, 2 => 1, 3 => 3))
+@test !isepi(tinymap(tinyset(1:3), 1 => 2, 2 => 1, 3 => 2))
+@test tinyset(1:2) ∩ tinyset(1:3) == tinyset(1:2)
+@test tinyset(1:2) ∪ tinyset(1:3) == tinyset(1:3)
+@test asmap(tinyset(3,1,4)) == tinymap(tinyset(1:8), 3 => 3, 1 => 1, 4 => 4)
+@test asmap(tinyset(1:8)) == id(tinyset(1:8))
 @test image(asmap(tinyset(3,1,4)) ∩ asmap(tinyset(4,1))) == tinyset(4,1)
 @test image(asmap(tinyset(3,1,4)) ∩ asmap(tinyset(4,5))) == tinyset(4)
 @test image(asmap(tinyset(3,1,4)) ∪ asmap(tinyset(4,5))) == tinyset(5,4,3,1)
@@ -55,13 +41,13 @@ info("=== new start tests ===")
 @test ismono(asmap(tinyset(3,1,4)) ∩ asmap(tinyset(4,5)))
 @test ismono(asmap(tinyset(3,1,4)) ∪ asmap(tinyset(4,1)))
 @test ismono(asmap(tinyset(3,1,4)) ∪ asmap(tinyset(4,5)))
-@test ~can(8) == can(0)
-@test ~can(0) == can(8)
-@test ~asmap(can(8)) == asmap(can(0))
-@test ~asmap(can(0)) == asmap(can(8))
-@test ismono(randmono(can(3), can(4)))
-@test isepi(randepi(can(4), can(3)))
-@test isiso(randiso(can(4), can(4)))
+@test ~tinyset(1:8) == tinyset()
+@test ~tinyset() == tinyset(1:8)
+@test ~asmap(tinyset(1:8)) == asmap(tinyset())
+@test ~asmap(tinyset()) == asmap(tinyset(1:8))
+@test ismono(randmono(tinyset(1:3), tinyset(1:4)))
+@test isepi(randepi(tinyset(1:4), tinyset(1:3)))
+@test isiso(randiso(tinyset(1:4), tinyset(1:4)))
 info("=== new start tests done ===")
 
 include("iter.jl")
@@ -98,110 +84,8 @@ let
     @test h == tinymap(tinyset(1,2,3), 2 => 2, 7 => 3) 
 end
 
-function latticealgebra(x, y, z)
-    @test x ≅ x
-    @test x ∩ x ≅ x 
-    @test x ∪ x ≅ x
-    @test x ∩ z ≅ z ∩ x
-    @test x ∪ z ≅ z ∪ x
-    @test x ∩ (y ∩ z) ≅ (x ∩ y) ∩ z
-    @test x ∪ (y ∪ z) ≅ (x ∪ y) ∪ z
-    @test x ∩ (y ∪ z) ≅ (x ∩ y) ∪ (x ∩ z)
-    @test x ∪ (y ∩ z) ≅ (x ∪ y) ∩ (x ∪ z)
-    @test x ∩ (x ∪ z) ≅ x
-    @test x ∪ (x ∩ z) ≅ x
-    @test x ∩ top(x) ≅ x
-    @test x ∩ bot(x) ≅ bot(x)
-    @test x ∪ top(x) ≅ top(x)
-    @test x ∪ bot(x) ≅ x
-    @test x - bot(x) ≅ x
-    @test bot(x) - x ≅ bot(x)
-    @test x - x ≅ bot(x)
-    @test x - top(x) ≅ bot(x)
-    @test top(x) - x ≅ ~x
-    @test x - z ≅ x ∩ ~z
-    @test ~~x ≅ x
-    @test ~(x ∩ z) ≅ ~x ∪ ~z
-    @test ~(x ∪ z) ≅ ~x ∩ ~z
-    @test x ∩ ~x ≅ bot(x)
-    @test x ∪ ~x ≅ top(x)
-end
-
-function latticeorder(x, y, z)
-    @test bot(x) ⊆ x ⊆ top(x)
-    @test x ∩ z ⊆ x
-    @test x ⊆ x ∪ z
-end
-
-info("=== New lattice algebra tests")
-
-let empty = tinyset()
-    latticealgebra(empty, empty, empty)
-    latticeorder(empty, empty, empty)
-end
-
-let
-    s = rand(TinySet)
-    t = rand(TinySet)
-    u = rand(TinySet)
-    latticealgebra(s, t, u)
-    latticeorder(s, t, u)
-end
-
-let cod = rand(TinySet)
-    i = randpart(cod)
-    j = randpart(cod)
-    k = randpart(cod)
-    latticealgebra(i, j, k)
-    latticeorder(i, j, k)
-end
-
-let dom = rand(TinySet) ; cod = rand(TinySet)
-    r = randrelation(dom, cod)
-    s = randrelation(dom, cod)
-    t = randrelation(dom, cod)
-    latticealgebra(r, s, t)
-    latticeorder(r, s, t)
-end
-info("=== New lattice algebra tests done")
-
-let
-    a = rand(TinySet)
-    b = rand(TinySet)
-    c = rand(TinySet)
-    d = rand(TinySet)
-    r = randrelation(a, b)
-    s = randrelation(b, c)
-    t = randrelation(c, d)
-    @test graph(id(cod(r))) ∘ r == r
-    @test r ∘ graph(id(dom(r))) == r
-    @test r == r''
-    @test (s ∘ r)' == r' ∘ s'
-    @test t ∘ (s ∘ r) == (t ∘ s) ∘ r
-    while isempty(a) < isempty(b)
-        b = rand(TinySet)
-    end
-    while isempty(b) < isempty(c)
-        c = rand(TinySet)
-    end
-    while isempty(c) < isempty(d)
-        d = rand(TinySet)
-    end
-    f = randmap(a, b) # nonempty => empty *can* happen! it *did*
-    g = randmap(b, c)
-    h = randmap(c, d)
-    @test id(cod(f)) ∘ f == f
-    @test f ∘ id(dom(f)) == f
-    @test h ∘ (g ∘ f) == (h ∘ g) ∘ f
-
-    i = codto(d, shuffle(collect(1:8)))
-    i ∘ i' == id(dom(i))
-    i' ∘ i == id(cod(i))
-
-    j = domto(d, shuffle(collect(1:8)))
-    j ∘ j' == id(dom(j))
-    j' ∘ j == id(cod(j))
-end
+include("boolean.jl")
+include("composition.jl")
 
 function composition_tests(r, s, t)
     @test r^0 == eye(r)
@@ -219,13 +103,11 @@ function diagonal_tests{N}(A::ExPart{N}, R::ExRelation{N})
     @test diagr(diag(R)) ⊆ R
 end
 
-function indexing_tests{N}(r::ExRelation{N})
-    for j in 1:N, k in 1:N
-        @test ((j,k) ∈ r) == (r[j,k] == 1)
-        @test ((j,k) ∈ r) == (k ∈ r[j,:]) == (r[j,:][k] == 1)
-        @test ((j,k) ∈ r) == (j ∈ r[:,k]) == (r[:,k][j] == 1)
-    end
-end
+# indexing_tests
+#        @test ((j,k) ∈ r) == (r[j,k] == 1)
+#        @test ((j,k) ∈ r) == (k ∈ r[j,:]) == (r[j,:][k] == 1)
+#        @test ((j,k) ∈ r) == (j ∈ r[:,k]) == (r[:,k][j] == 1)
+# implement membership test (again) but not indexing
 
 function opposite_tests{N}(r::ExRelation{N}, a::ExPart{N})
     @test a ∘ r == r' ∘ a
@@ -285,9 +167,6 @@ let
 
     info("Diagonal tests on a random 3-part and 3-relation")
     diagonal_tests(a, r)
-
-    info("Indexing tests on a random 3-relation")
-    indexing_tests(r)
 
     info("Opposite tests on a random 3-relation and 3-part")
     opposite_tests(r, a)
