@@ -25,30 +25,15 @@ finite topological spaces.
 * Random parts and relations
 * Iteration protocols
 
-# Examples (obsolete)
-```julia
-julia> Pt"001" ∘ Rn"101 010 101"
-Tiny 3-Part
-  1 0 1
-
-julia> collect(filter(r -> eye(r) ⊆ r == r', ExRelation{3}))
-8-element Array{Any,1}:
- Rn"100 010 001"
- Rn"100 011 011"
- Rn"101 010 101"
- Rn"101 011 111"
- Rn"110 110 001"
- Rn"110 111 011"
- Rn"111 110 101"
- Rn"111 111 111"
-
-julia> collect(each(Symbol, Rn"101 010 101"))
-5-element Array{Tuple{Symbol,Symbol},1}:
- (:a,:a)
- (:a,:c)
- (:b,:b)
- (:c,:a)
- (:c,:c)
+# Examples
+```julia> map(collect, eachepi(tinyset(2,5,8), tinyset(3,1)))
+6-element Array{Any,1}:
+ [2=>1,5=>1,8=>3]
+ [2=>3,5=>3,8=>1]
+ [2=>1,5=>3,8=>1]
+ [2=>3,5=>1,8=>3]
+ [2=>1,5=>3,8=>3]
+ [2=>3,5=>1,8=>1]
 
 ```
 """
@@ -77,7 +62,7 @@ export ≅ # APPROXIMATELY EQUAL TO; Julia reserves ≡ for its ===
 export randpart, randpartition, randrelation
 export randmap, randmono, randepi, randiso
 export injections, surjections # combinatorical generation in general
-export eachmap, eachmono, eachrelation
+export eachmap, eachmono, eachepi, eachrelation
 export domto, codto
 export TinySet, can, tinyset, asmap, id
 export TinyMap, tinymap, dom, cod, graph

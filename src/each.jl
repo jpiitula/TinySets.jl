@@ -68,6 +68,35 @@ function next(hom::EachMono, state)
     TinyMap(rule, hom.dom, hom.cod), (iter, iterstate)
 end
 
+immutable EachEpi
+    dom::TinySet
+    cod::TinySet
+end
+
+eachepi(dom::TinySet, cod::TinySet) = EachEpi(dom, cod)
+
+length(hom::EachEpi) = length(surjections(collect(hom.dom), length(hom.cod)))
+eltype(hom::EachEpi) = TinyMap
+
+function start(hom::EachEpi)
+    iter = surjections(hom.dom, length(hom.cod)) # it does collect, ok?
+    iter, start(iter)
+end
+function done(hom::EachEpi, state)
+    iter, iterstate = state
+    done(iter, iterstate)
+end
+function next(hom::EachEpi, state)
+    iter, iterstate = state
+    target, iterstate = next(iter, iterstate)
+    rule = zero(UInt64)
+    for (inputs,output) in zip(target, hom.cod)
+        for input in inputs
+            rule = setbit(rule, input, output)
+    end end
+    TinyMap(rule, hom.dom, hom.cod), (iter, iterstate)
+end
+
 "Constant part of an iteration state"
 immutable EachRelation
     dom::TinySet
