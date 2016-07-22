@@ -64,21 +64,9 @@ info("=== new start tests ===")
 @test isiso(randiso(can(4), can(4)))
 info("=== new start tests done ===")
 
-let
-    # injections to given codomain from domain of given size
-    @test length(collect(injections("abcde", 3))) == 60
-    @test length(collect(injections("abc", 3))) == 6
-    @test length(collect(injections("abc", 4))) == 0
-    @test length(collect(injections("abc", 0))) == 1
-    @test length(collect(injections("", 0))) == 1
-    @test length(collect(injections("", 1))) == 0
+include("iter.jl")
 
-    # surjections from given domain to codomain of given size
-    @test length(collect(surjections("abcde", 3))) == 150
-    @test length(collect(surjections("abc", 3))) == 6
-    @test length(collect(surjections("abc", 4))) == 0
-    # Julia partitions(array, n) has trouble with empties
-end
+info("=== iter ok ===")
 
 let
     set = tinyset(3,1,4)
@@ -198,7 +186,7 @@ let
     while isempty(c) < isempty(d)
         d = rand(TinySet)
     end
-    f = randmap(a, b)
+    f = randmap(a, b) # nonempty => empty *can* happen! it *did*
     g = randmap(b, c)
     h = randmap(c, d)
     @test id(cod(f)) ∘ f == f
