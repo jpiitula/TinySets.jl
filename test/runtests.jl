@@ -65,6 +65,7 @@ info("=== new start tests ===")
 info("=== new start tests done ===")
 
 include("iter.jl")
+include("each.jl")
 
 info("=== iter ok ===")
 

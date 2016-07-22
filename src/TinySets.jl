@@ -77,7 +77,7 @@ export ≅ # APPROXIMATELY EQUAL TO; Julia reserves ≡ for its ===
 export randpart, randpartition, randrelation
 export randmap, randmono, randepi, randiso
 export injections, surjections # combinatorical generation in general
-export eachmap, eachrelation
+export eachmap, eachmono, eachrelation
 export domto, codto
 export TinySet, can, tinyset, asmap, id
 export TinyMap, tinymap, dom, cod, graph

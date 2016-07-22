@@ -30,8 +30,6 @@ function partitions0{T}(array::AbstractArray{T}, n)
     end
 end
 
-typealias Cancelables{T} Union{Injections{T},Surjections{T}}
-
 """
     injections(codomain, n)
 Generate permutations of `n`-element combinations.
@@ -56,6 +54,8 @@ end
 
 eltype{T}(iter::Injections{T}) = Vector{T}
 eltype{T}(iter::Surjections{T}) = Vector{Vector{T}}
+
+typealias Cancelables{T} Union{Injections{T},Surjections{T}}
 
 start(iter::Injections) = start(iter, combinations(iter.cod, iter.dom))
 start(iter::Surjections) = start(iter, partitions0(iter.dom, iter.cod))

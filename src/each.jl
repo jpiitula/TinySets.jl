@@ -33,6 +33,41 @@ function next(hom::EachMap, state)
     TinyMap(rule, hom.dom, hom.cod), (k + 1, jx)
 end
 
+immutable EachMono
+    dom::TinySet
+    cod::TinySet
+end
+
+"""
+    eachmono(dom::TinySet, cod::TinySet)
+Generate monomaps from `dom` to `cod`.
+"""
+eachmono(dom::TinySet, cod::TinySet) = EachMono(dom, cod)
+
+function length(hom::EachMono)
+    dom, cod = length(hom.dom), length(hom.cod)
+    cod < dom ? 0 : factorial(cod, cod - dom)
+end
+eltype(hom::EachMono) = TinyMap
+
+function start(hom::EachMono)
+    iter = injections(collect(hom.cod), length(hom.dom))
+    iter, start(iter)
+end
+function done(hom::EachMono, state)
+    iter, iterstate = state
+    done(iter, iterstate)
+end
+function next(hom::EachMono, state)
+    iter, iterstate = state
+    target, iterstate = next(iter, iterstate)
+    rule = zero(UInt64)
+    for (input,output) in zip(hom.dom, target)
+        rule = setbit(rule, input, output)
+    end
+    TinyMap(rule, hom.dom, hom.cod), (iter, iterstate)
+end
+
 "Constant part of an iteration state"
 immutable EachRelation
     dom::TinySet
