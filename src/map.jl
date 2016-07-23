@@ -105,15 +105,6 @@ The identity map of `dom`.
 id(dom::TinySet) = TinyMap(ruleof(dom), dom, dom)
 
 """
-    asmap(dom::TinySet)::TinyMap
-
-The canonical way of `dom` to be a part of `tinyset(1:8)`.
-(Hope to get rid of this.)
-"""
-
-asmap(dom::TinySet) = TinyMap(ruleof(dom), dom, tinyset(1:8))
-
-"""
     image(f::TinyMap)::TinySet
 
 A canonical image of a tiny map. Used to implement set operations on
