@@ -80,15 +80,6 @@ function composition_tests(r, s, t)
     @test r^3 == r ∘ r ∘ r
 end
 
-function diagonal_tests{N}(A::ExPart{N}, R::ExRelation{N})
-    @test diagr(zero(A)) == zero(R)
-    @test diagr(one(A)) == eye(A) == eye(R)
-    @test diag(zero(R)) == zero(A)
-    @test diag(one(R)) == one(A)
-    @test diag(diagr(A)) == A
-    @test diagr(diag(R)) ⊆ R
-end
-
 include("product.jl")
 
 function each_tests{N}(A::ExPart{N}, R::ExRelation{N})
@@ -100,10 +91,6 @@ function each_tests{N}(A::ExPart{N}, R::ExRelation{N})
     @test length(ExRelation{N}) == 2^(N^2)
     @test length(A) == length(Set(each(Int, A)))
     @test length(R) == length(Set(each(Int, R)))
-    @test length(A) == length(Set(each(Char, A)))
-    @test length(R) == length(Set(each(Char, R)))
-    @test length(A) == length(Set(each(Symbol, A)))
-    @test length(R) == length(Set(each(Symbol, R)))
 end
 
 let
@@ -112,9 +99,6 @@ let
 
     info("Composition tests on random 3-relations")
     composition_tests(r, s, t)
-
-    info("Diagonal tests on a random 3-part and 3-relation")
-    diagonal_tests(a, r)
 
     info("Each-tests on a random 3-part and 3-relation")
     each_tests(a, r)

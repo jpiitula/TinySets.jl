@@ -21,8 +21,7 @@ finite topological spaces.
 
 * Boolean lattice operations, inclusion predicate
 * Composition and inversion of relations
-* Diagonal correspondence of parts and relations
-* Random parts and relations
+* Random set, maps, parts, partitions, and relations
 * Iteration protocols
 
 # Examples
@@ -40,12 +39,11 @@ finite topological spaces.
 module TinySets
 
 import Base: hash, getindex
-import Base: zero, one, eye, diag
+import Base: zero, one, eye
 
 export ExPart, ExRelation
 export @Pt_str, @Rn_str
 export each, point
-export diagr
 export randp, randr
 
 # new start - keep some of the old imports and exports above
