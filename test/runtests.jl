@@ -106,16 +106,6 @@ function each_tests{N}(A::ExPart{N}, R::ExRelation{N})
     @test length(R) == length(Set(each(Symbol, R)))
 end
 
-function point_tests(A, R)
-    @test A == reduce(∪, zero(A),
-                      map(k -> point(A, k),
-                          each(Int, A)))
-    @test R == reduce(∪, zero(R),
-                      map(p -> point(R, p...),
-                          each(Int, R)))
-
-end
-
 let
     a, b, c = randp(3), randp(3), randp(3)
     r, s, t = randr(3), randr(3), randr(3)
@@ -128,7 +118,4 @@ let
 
     info("Each-tests on a random 3-part and 3-relation")
     each_tests(a, r)
-
-    info("Point-tests on a random 3-part and 3-relation")
-    point_tests(a, r)
 end

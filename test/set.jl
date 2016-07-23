@@ -16,3 +16,9 @@ using Base.Test
 
 @test collect(tinyset()) == Int[]
 @test collect(tinyset(3,1,4)) == [1,3,4]
+
+let
+    a = rand(TinySet)
+
+    @test a == reduce(∪, tinyset(), map(tinyset, a))
+end
