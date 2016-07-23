@@ -68,34 +68,7 @@ include("each.jl")
 
 info("=== iter ok ===")
 
-let
-    set = tinyset(3,1,4)
-
-    f = pairfrom(set, 1:8)
-    @test dom(f) == tinyset(1,2,3)
-    @test cod(f) == tinyset(3,1,4)
-    @test isiso(f)
-
-    g = pairto(set, 1:8)
-    @test dom(g) == tinyset(3,1,4)
-    @test cod(g) == tinyset(1,2,3)
-    @test isiso(g)
-end
-
-let
-    f = tinymap(tinyset(3,1,4), 2 => 3, 7 => 4)
-
-    g = pairfrom(f, 1:8)
-    @test dom(g) == tinyset(1,2)
-    @test cod(g) == tinyset(3,1,4)
-    @test ismono(g)
-    @test g == tinymap(cod(f), 1 => 3, 2 => 4)
-
-    h = pairto(f, 1:8)
-    @test dom(h) == tinyset(2,7)
-    @test cod(h) == tinyset(1,2,3)
-    @test h == tinymap(tinyset(1,2,3), 2 => 2, 7 => 3) 
-end
+include("isomap.jl")
 
 include("boolean.jl")
 include("composition.jl")
@@ -116,19 +89,7 @@ function diagonal_tests{N}(A::ExPart{N}, R::ExRelation{N})
     @test diagr(diag(R)) ⊆ R
 end
 
-function product_tests(A, B)
-    @test A × B == reduce(∪, zero(A × B),
-                          map(k -> k × B,
-                              each(Int, A)))
-    @test A × B == reduce(∪, zero(A × B),
-                          map(k -> A × k,
-                              each(Int, B)))
-    @test A × B == (B × A)'
-    @test zero(A) × B == zero(A × B) == A × zero(B)
-    @test one(A) × one(B) == one(A × B)
-    @test B == zero(B) || A == (A × B) ∘ one(B)
-    @test A == zero(A) || B == one(A) ∘ (A × B)
-end
+include("product.jl")
 
 function each_tests{N}(A::ExPart{N}, R::ExRelation{N})
     @test length(zero(A)) == length(Set(each(Int, zero(A)))) == 0
@@ -164,9 +125,6 @@ let
 
     info("Diagonal tests on a random 3-part and 3-relation")
     diagonal_tests(a, r)
-
-    info("Product tests on random 3-parts")
-    product_tests(a, b)
 
     info("Each-tests on a random 3-part and 3-relation")
     each_tests(a, r)

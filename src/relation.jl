@@ -26,7 +26,14 @@ ruleof(a::TinyRelation) = a.rule
 dom(a::TinyRelation) = a.dom
 cod(a::TinyRelation) = a.cod
 
-function tinyrelation(dom::TinySet, cod::TinySet, points...)
+function tinyrelation(dom::TinySet, cod::TinySet, points::Pair{Int,Int}...)
+    tinyrelation(dom, cod, points)
+end
+
+# could *also* allow Tuple{Int,Int}... but not *instead* and it would
+# need tests or not done
+
+function tinyrelation(dom::TinySet, cod::TinySet, points)
     rule = zero(UInt64)
     for (input,output) in points
         input ∈ dom || error("input not in domain")

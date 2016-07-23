@@ -53,7 +53,7 @@ import Base: start, done, next, eltype, length
 import Base: rand
 import Base: ctranspose # for f' and r'
 import Base: ==, (-)
-import Base: ∩, ∪, ~
+import Base: ∩, ∪, ~ # UNION
 import Base: ⊆
 import Base: ∈ # ELEMENT OF
 import Base: × # MULTIPLICATION SIGN
