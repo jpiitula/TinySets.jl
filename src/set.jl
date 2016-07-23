@@ -34,16 +34,9 @@ function next(data::TinySet, state)
 end
 
 function ∈(k::Int, a::TinySet)
-    reinterpret(UInt8, a) & (one(UInt8) << (k - 1)) > zero(UInt8)
+    1 <= k <= 8 || error("invalid point")
+    testbit(reinterpret(UInt8, a), k)
 end
-
-#"""
-#    can(n) :: TinySet
-#
-#A "canonical" part of `can(8)` for 0, 1, 2, 3, ..., 8 points.
-#"""
-#
-#can(n) = reinterpret(TinySet, 0xff >> (8 - n))
 
 """
     tinyset(n::Int...) :: TinySet

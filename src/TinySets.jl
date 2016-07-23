@@ -71,11 +71,19 @@ export image, ismono, isepi, isiso
 export top, bot
 
 function setbit(rule::UInt64, r::Int, k::Int)
-    rule | one(UInt64) << (8 * (r - 1) + (k - 1))
+    rule | (one(UInt64) << (8 * (r - 1) + (k - 1)))
+end
+
+function testbit(rule::UInt64, r::Int, k::Int)
+    rule & (one(UInt64) << (8 * (r - 1) + (k - 1))) > zero(UInt64)
 end
 
 function setbit(set::UInt8, k::Int)
-    set | one(UInt8) << (k - 1)
+    set | (one(UInt8) << (k - 1))
+end
+
+function testbit(set::UInt8, k::Int)
+    set & (one(UInt8) << (k - 1)) > zero(UInt8)
 end
 
 include("set.jl")

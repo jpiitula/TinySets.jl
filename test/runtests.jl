@@ -116,22 +116,6 @@ function diagonal_tests{N}(A::ExPart{N}, R::ExRelation{N})
     @test diagr(diag(R)) ⊆ R
 end
 
-# indexing_tests
-#        @test ((j,k) ∈ r) == (r[j,k] == 1)
-#        @test ((j,k) ∈ r) == (k ∈ r[j,:]) == (r[j,:][k] == 1)
-#        @test ((j,k) ∈ r) == (j ∈ r[:,k]) == (r[:,k][j] == 1)
-# implement membership test (again) but not indexing
-
-function opposite_tests{N}(r::ExRelation{N}, a::ExPart{N})
-    @test a ∘ r == r' ∘ a
-    for j in 1:N, k in 1:N
-        @test ((j,k) ∈ r) == ((k,j) ∈ r')
-    end
-    for k in 1:N
-        @test r[k,:] == r'[:,k]
-    end
-end
-
 function product_tests(A, B)
     @test A × B == reduce(∪, zero(A × B),
                           map(k -> k × B,
@@ -180,9 +164,6 @@ let
 
     info("Diagonal tests on a random 3-part and 3-relation")
     diagonal_tests(a, r)
-
-    info("Opposite tests on a random 3-relation and 3-part")
-    opposite_tests(r, a)
 
     info("Product tests on random 3-parts")
     product_tests(a, b)

@@ -39,3 +39,16 @@ let
     j ∘ j' == id(dom(j))
     j' ∘ j == id(cod(j))
 end
+
+let
+    a = rand(TinySet)
+    b = rand(TinySet)
+    r = randrelation(a, b)
+    @test r ∘ graph(id(a)) == r
+    @test graph(id(b)) ∘ r == r
+    @test (r ∘ graph(id(a)))' == r' ∘ graph(id(b))
+    @test (graph(id(b)) ∘ r)' == graph(id(a)) ∘ r'
+    for j in dom(r), k in cod(r)
+        @test ((j,k) ∈ r) == ((k,j) ∈ r')
+    end
+end

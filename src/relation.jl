@@ -29,11 +29,18 @@ cod(a::TinyRelation) = a.cod
 function tinyrelation(dom::TinySet, cod::TinySet, points...)
     rule = zero(UInt64)
     for (input,output) in points
-        input ∈ dom || error("invalid point")
-        output ∈ cod || error("invalid point")
+        input ∈ dom || error("input not in domain")
+        output ∈ cod || error("input not in codomain")
         rule = setbit(rule, input, output)
     end
     TinyRelation(rule, dom, cod)
+end
+
+function ∈(jk::Tuple{Int,Int}, r::TinyRelation)
+    j, k = jk
+    j ∈ dom(r) || error("input not in domain")
+    k ∈ cod(r) || error("output not in codomain")
+    testbit(ruleof(r), j, k)
 end
 
 graph(f::TinyMap) = TinyRelation(ruleof(f), dom(f), cod(f))
