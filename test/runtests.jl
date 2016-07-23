@@ -73,13 +73,6 @@ include("isomap.jl")
 include("boolean.jl")
 include("composition.jl")
 
-function composition_tests(r, s, t)
-    @test r^0 == eye(r)
-    @test r^1 == r
-    @test r^2 == r ∘ r
-    @test r^3 == r ∘ r ∘ r
-end
-
 include("product.jl")
 
 let
@@ -94,12 +87,4 @@ let
 
     @test length(tinyset(3,1,4)) == 3
     @test length(collect(tinyset(3,1,4))) == 3
-end
-
-let
-    r, s, t = randr(3), randr(3), randr(3)
-
-    info("Composition tests on random 3-relations")
-    composition_tests(r, s, t)
-
 end

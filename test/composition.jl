@@ -42,6 +42,15 @@ end
 
 let
     a = rand(TinySet)
+    r = randrelation(a, a)
+    @test r^0 == graph(id(a))
+    @test r^1 == r
+    @test r^2 == r ∘ r
+    @test r^3 == r ∘ r ∘ r
+end
+
+let
+    a = rand(TinySet)
     b = rand(TinySet)
     r = randrelation(a, b)
     @test r ∘ graph(id(a)) == r

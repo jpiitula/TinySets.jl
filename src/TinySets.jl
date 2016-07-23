@@ -38,22 +38,15 @@ finite topological spaces.
 """
 module TinySets
 
-import Base: hash, getindex
-import Base: zero, one, eye
+import Base: hash # to hash
 
-export ExPart, ExRelation
-export @Pt_str, @Rn_str
-export each, point
-export randp, randr
-
-# new start - keep some of the old imports and exports above
 import Base: start, done, next, eltype, length
 import Base: rand
 import Base: ctranspose # for f' and r'
-import Base: ==, (-)
-import Base: ∩, ∪, ~ # UNION
+import Base: ==, (-), ^
+import Base: ∩, ∪, ~ # INTERSECTION, UNION
 import Base: ⊆
-import Base: ∈ # ELEMENT OF
+import Base: ∈ # ELEMENT OF, \in
 import Base: × # MULTIPLICATION SIGN
 export ∘ # RING OPERATOR
 export ≅ # APPROXIMATELY EQUAL TO; Julia reserves ≡ for its ===
@@ -91,11 +84,5 @@ include("bell.jl")
 include("rand.jl")
 include("iter.jl") # combinatorical generation in general
 include("each.jl")
-# new start
-
-# old design, going away
-include("carpet/Type.jl")
-include("carpet/Each.jl")
-include("carpet/Core.jl")
 
 end

@@ -176,3 +176,13 @@ end
 
 ctranspose(f::TinyMap) = inverse(f)
 ctranspose(r::TinyRelation) = opposite(r)
+
+function ^(f::TinyRelation, n::Int)
+    dom(f) == cod(f) || error("not on")
+    n >= 0 || error("not a number")
+    if n == 0
+        graph(id(dom(f)))
+    else
+        f ∘ f^(n - 1) # don't *do* large n
+    end
+end
