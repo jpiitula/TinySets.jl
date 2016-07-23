@@ -82,24 +82,24 @@ end
 
 include("product.jl")
 
-function each_tests{N}(A::ExPart{N}, R::ExRelation{N})
-    @test length(zero(A)) == length(Set(each(Int, zero(A)))) == 0
-    @test length(zero(R)) == length(Set(each(Int, zero(R)))) == 0
-    @test length(one(A)) == length(Set(each(Int, one(A)))) == N
-    @test length(one(R)) == length(Set(each(Int, one(R)))) == N^2
-    @test length(ExPart{N}) == 2^N
-    @test length(ExRelation{N}) == 2^(N^2)
-    @test length(A) == length(Set(each(Int, A)))
-    @test length(R) == length(Set(each(Int, R)))
+let
+    a = rand(TinySet)
+    @test length(a) == length(collect(a))
+
+    @test length(tinyset()) == 0
+    @test length(collect(tinyset())) == 0
+
+    @test length(tinyset(1:8)) == 8
+    @test length(collect(tinyset(1:8))) == 8
+
+    @test length(tinyset(3,1,4)) == 3
+    @test length(collect(tinyset(3,1,4))) == 3
 end
 
 let
-    a, b, c = randp(3), randp(3), randp(3)
     r, s, t = randr(3), randr(3), randr(3)
 
     info("Composition tests on random 3-relations")
     composition_tests(r, s, t)
 
-    info("Each-tests on a random 3-part and 3-relation")
-    each_tests(a, r)
 end
