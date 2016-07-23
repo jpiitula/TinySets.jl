@@ -31,11 +31,11 @@ let
     @test f ∘ id(dom(f)) == f
     @test h ∘ (g ∘ f) == (h ∘ g) ∘ f
 
-    i = codto(d, shuffle(collect(1:8)))
+    i = pairto(d, shuffle(collect(1:8)))
     i ∘ i' == id(dom(i))
     i' ∘ i == id(cod(i))
 
-    j = domto(d, shuffle(collect(1:8)))
+    j = pairfrom(d, shuffle(collect(1:8)))
     j ∘ j' == id(dom(j))
     j' ∘ j == id(cod(j))
 end

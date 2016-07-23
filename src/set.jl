@@ -142,13 +142,13 @@ end
 ~(f::TinySet) = complement(f)
 
 """
-    domto(set::TinySet, newdom) :: TinyMap
+    pairfrom(set::TinySet, newdom) :: TinyMap
 Makes a tiny isomap that pairs values (in `1:8`) from `newdom` with
 the points of `set`. Checks that there are at least as many values in
 `newdom` as in `set` and they are distinct from each other.
 """
 
-function domto(set::TinySet, newdom)
+function pairfrom(set::TinySet, newdom)
     rule = zero(UInt64)
     dom = zero(UInt8)
     for (input,output) in zip(newdom,set)
@@ -160,14 +160,14 @@ function domto(set::TinySet, newdom)
 end
 
 """
-    codto(set::TinySet, newcod) :: TinyMap
+    pairto(set::TinySet, newcod) :: TinyMap
 
 Makes a tiny isomap that pairs the points of `set` with values from
 `newcod` (in `1:8`). Checks that there are at least as many values in
 `newcod` as in `set` and they are distinct from each other.
 """
 
-function codto(set::TinySet, newcod)
+function pairto(set::TinySet, newcod)
     rule = zero(UInt64)
     cod = zero(UInt8)
     for (input,output) in zip(set,newcod)

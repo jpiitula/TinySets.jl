@@ -63,7 +63,7 @@ export randpart, randpartition, randrelation
 export randmap, randmono, randepi, randiso
 export injections, surjections # combinatorical generation in general
 export eachmap, eachmono, eachepi, eachrelation
-export domto, codto
+export pairfrom, pairto
 export TinySet, tinyset, id
 export TinyMap, tinymap, dom, cod, graph
 export TinyRelation, tinyrelation, composition, opposite
