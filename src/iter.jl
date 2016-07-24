@@ -1,4 +1,4 @@
-using Iterators: chain, imap
+using Iterators: chain, imap, product
 
 # more general than tiny maps - could be in a separate library - has
 # to work around a misfeature in Base.partitions (probably still

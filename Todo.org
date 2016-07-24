@@ -14,8 +14,13 @@ Generate all left and right inverses of a map.
 
 Maps factor. Maps have sections and retractions.
 
-                   ; eachorder(A, B)
-                   ; randorder(A, B)
+                   ; eachorder(A)
+randequivalence(A) ; randorder(A)
+
+Need to write tests for eachequivalence(A).
+Can test inclusion of diagonal, inclusion
+of opposite relation, inclusion of square
+relation - is inclusion test implemented?
 
 * Should there be canonical maps?
 

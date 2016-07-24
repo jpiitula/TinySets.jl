@@ -48,6 +48,9 @@ import Base: ∩, ∪, ~ # INTERSECTION, UNION
 import Base: ⊆
 import Base: ∈ # ELEMENT OF, \in
 import Base: × # MULTIPLICATION SIGN
+
+import Iterators: product # hm, TinySets.product a method of that?
+
 export ∘ # RING OPERATOR
 export ≅ # APPROXIMATELY EQUAL TO; Julia reserves ≡ for its ===
 export randpart, randpartition, randrelation
