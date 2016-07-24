@@ -1,3 +1,13 @@
+* Combine rand with eachwhatever
+
+So there would not be randmap, randmono anymore but
+rand(eachmap(dom,cod)) and rand(eachmono(dom,cod)) and so.
+
+Interface only - implementations would not change.
+
+Except the EachWhatever types may then need to change to support also
+rand.
+
 * More iteration protocols
 
 Generate all parts.
@@ -6,33 +16,18 @@ Generate all partitions.
 
 Generate all left and right inverses of a map.
 
-              ; also eachmono(A, B), eachepi(A, B)
 randmap(A, B) ; also randmono(A, B), randepi(A, B)
 
 Maps factor. Maps have sections and retractions.
 
-A TinyRelation from a TinySet A to a TinySet B is a part of A ⨯ B with
-canonical projections or something like that. Is a part of a canonical
-product, maybe.
-
                    ; eachorder(A, B)
 randrelation(A, B) ; randorder(A, B)
 
-Maybe diagrelation(A)? and diag(R)::TinySet? Or what?
-
 * Should there be canonical maps?
 
-Should there be canonical inclusions, tinymap(top(3), top(8)),
-tinymap(tinyset(1,2,3), top(8)) as inclusions to top(8),
-tinymap(top(3), top(5)), tinymap(tinyset(1,2,3), tinyset(1,2,3,4,5))
-to top(5), and generally.
-
-Then there are the universal maps tinymap(tinyset(), A) for any A and
-tinymap(A, tinyset(1)) also for any A.
-
-The ambiguity is not real, because tinymap(tinyset(), A) is the
-canonical inclusion when A is a canonical part, and tinymap(A,
-tinyset(1)) is the canonical inclusion when A is 1.
+Hm. There are the universal maps tinyset() -> A for any A and then
+also A -> tinyset(1)) for any A. How does one specify those? The
+former is just tinymap(A). Hm. tinymap(tinyset(1), zip(A, what)).
 
 * Determines, is determined by
 
