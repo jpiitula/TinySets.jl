@@ -12,12 +12,10 @@ rand.
 
 Generate all left and right inverses of a map.
 
-randmap(A, B) ; also randmono(A, B), randepi(A, B)
-
 Maps factor. Maps have sections and retractions.
 
                    ; eachorder(A, B)
-randrelation(A, B) ; randorder(A, B)
+                   ; randorder(A, B)
 
 * Should there be canonical maps?
 
