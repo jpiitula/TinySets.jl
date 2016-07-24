@@ -21,7 +21,7 @@ finite topological spaces.
 
 * Boolean lattice operations, inclusion predicate
 * Composition and inversion of relations
-* Random set, maps, parts, partitions, and relations
+* Random sets, maps, parts, partitions, and relations
 * Iteration protocols
 
 # Examples
@@ -53,7 +53,7 @@ export ≅ # APPROXIMATELY EQUAL TO; Julia reserves ≡ for its ===
 export randpart, randpartition, randrelation
 export randmap, randmono, randepi, randiso
 export injections, surjections # combinatorical generation in general
-export eachmap, eachmono, eachepi, eachrelation
+export eachmap, eachmono, eachpart, eachepi, eachpartition, eachrelation
 export pairfrom, pairto
 export TinySet, tinyset, id
 export TinyMap, tinymap, dom, cod, graph

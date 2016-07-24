@@ -1,3 +1,5 @@
+using Iterators: chain, imap
+
 # more general than tiny maps - could be in a separate library - has
 # to work around a misfeature in Base.partitions (probably still
 # present in Combinatorics.partitions, hope they think it a bug)
@@ -13,7 +15,20 @@ immutable Surjections{T}
 end
 
 """
+    TinySet.combinationses(array)
+To be deprecated when all-sizes-chained Base.combinations or
+Combinatorics.combinations becomes available (in Julia 0.5,
+presumably; previous to that, only for fixed sizes).
+
+Note that this is not exported from TinySets either.
+"""
+function combinationses{T}(array::AbstractArray{T})
+    chain([ combinations(array, n) for n in 0:length(array) ]...)
+end
+
+"""
     TinySet.partitions0(array, n)
+    TinySet.partitions0(array)
 Works around a misfeature where Base.partitions throws Domain Error
 for empty data or 0-block request. The correct handling is to generate
 a 0-block partition for empty data, and no partitions for the other
@@ -27,6 +42,14 @@ function partitions0{T}(array::AbstractArray{T}, n)
         Vector{T}[]
     else
         partitions(array, n)
+    end
+end
+
+function partitions0{T}(array::AbstractArray{T})
+    if isempty(array)
+        Vector{T}[[]]
+    else
+        partitions(array)
     end
 end
 

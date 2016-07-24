@@ -40,7 +40,7 @@ end
 
 """
     eachmono(dom::TinySet, cod::TinySet)
-Generate monomaps from `dom` to `cod`.
+Generate monomaps from `dom` to `cod`. See also `eachpart`.
 """
 eachmono(dom::TinySet, cod::TinySet) = EachMono(dom, cod)
 
@@ -49,6 +49,11 @@ function length(hom::EachMono)
     cod < dom ? 0 : factorial(cod, cod - dom)
 end
 eltype(hom::EachMono) = TinyMap
+
+# TODO: Investigate if many of these iteration patterns could be
+# replaced with something (imap?) from Iterators not that using
+# Iterators. - Hm. Kind of investigated imap now with eachpartition.
+# Not entirely satisfied but there is some promise there.
 
 function start(hom::EachMono)
     iter = injections(collect(hom.cod), length(hom.dom))
@@ -66,6 +71,40 @@ function next(hom::EachMono, state)
         rule = setbit(rule, input, output)
     end
     TinyMap(rule, hom.dom, hom.cod), (iter, iterstate)
+end
+
+immutable EachPart
+    cod::TinySet
+end
+
+"""
+    eachpart(cod::TinySet)
+Generate monomaps to `cod`. See also `eachmono`.
+"""
+
+eachpart(cod::TinySet) = EachPart(cod)
+
+length(pow::EachPart) = 2^length(pow.cod)
+eltype(pow::EachPart) = TinyMap
+
+function start(pow::EachPart)
+    iter = combinationses(collect(pow.cod))
+    iter, start(iter)
+end
+function done(pow::EachPart, state)
+    iter, iterstate = state
+    done(iter, iterstate)
+end
+function next(pow::EachPart, state)
+    iter, iterstate = state
+    target, iterstate = next(iter, iterstate)
+    base = isempty(pow.cod) ? 1 : first(pow.cod)
+    dom = base:(base + length(target) - 1)
+    rule = zero(UInt64)
+    for (input,output) in zip(dom, target)
+        rule = setbit(rule, input, output)
+    end
+    TinyMap(rule, tinyset(dom), pow.cod), (iter, iterstate)
 end
 
 immutable EachEpi
@@ -95,6 +134,42 @@ function next(hom::EachEpi, state)
             rule = setbit(rule, input, output)
     end end
     TinyMap(rule, hom.dom, hom.cod), (iter, iterstate)
+end
+
+immutable EachPartition
+    dom::TinySet
+end
+
+eachpartition(dom::TinySet) = EachPartition(dom)
+
+# Base.partitions tells the number of partitions correctly, it just
+# cannot provide the actual partitions of an empty array when asked.
+
+length(wat::EachPartition) = length(partitions(1:length(wat.dom)))
+eltype(wat::EachPartition) = TinyMap
+
+function start(wat::EachPartition)
+    function epify(blocks)
+        base = (isempty(blocks)) ? 1 : first(wat.dom)
+        cod = base:(base + length(blocks) - 1)
+        rule = zero(UInt64)
+        for (inputs,output) in zip(blocks, cod)
+            for input in inputs
+                rule = setbit(rule, input, output)
+        end end
+        TinyMap(rule, wat.dom, tinyset(cod))
+    end
+    iter = imap(epify, partitions0(collect(wat.dom)))
+    iter, start(iter)
+end
+function done(wat::EachPartition, state)
+    iter, iterstate = state
+    done(iter, iterstate)
+end
+function next(wat::EachPartition, state)
+    iter, iterstate = state
+    value, iterstate = next(iter, iterstate)
+    value, (iter, iterstate)
 end
 
 "Constant part of an iteration state"

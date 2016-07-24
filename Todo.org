@@ -10,10 +10,6 @@ rand.
 
 * More iteration protocols
 
-Generate all parts.
-
-Generate all partitions.
-
 Generate all left and right inverses of a map.
 
 randmap(A, B) ; also randmono(A, B), randepi(A, B)

@@ -1,6 +1,9 @@
 using TinySets
 using Base.Test
 
+@test collect(TinySets.combinationses([3,1])) == Vector{Int}[[],[3],[1],[3,1]]
+@test collect(TinySets.combinationses(Int[])) == Vector{Int}[[]]
+
 # https://github.com/JuliaLang/Combinatorics.jl/blob/master/test/partitions.jl
 # tests adapted for TinySets.partitions0 (by appending the 0) that
 # uses Base.partitions when no empty or 0. Oh - TinySets.partitions0
