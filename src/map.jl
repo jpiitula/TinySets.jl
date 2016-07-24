@@ -39,6 +39,10 @@ given as integers from `1` to `8`.
 """
 
 function tinymap(cod::TinySet, points::Pair{Int,Int}...)
+    tinymap(cod, points)
+end
+
+function tinymap(cod::TinySet, points)
     domain = zero(UInt8)
     codomain = reinterpret(UInt8, cod)
     for (m,n) in points
