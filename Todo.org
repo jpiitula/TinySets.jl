@@ -1,3 +1,7 @@
+* Clean up the tests
+
+Currently still a bit of a mess and make noises.
+
 * Combine rand with eachwhatever
 
 So there would not be randmap, randmono anymore but
@@ -17,16 +21,12 @@ Maps factor. Maps have sections and retractions.
                    ; eachorder(A)
 randequivalence(A) ; randorder(A)
 
-Need to write tests for eachequivalence(A).
-Can test inclusion of diagonal, inclusion
-of opposite relation, inclusion of square
-relation - is inclusion test implemented?
-
 * Should there be canonical maps?
 
 Hm. There are the universal maps tinyset() -> A for any A and then
 also A -> tinyset(1)) for any A. How does one specify those? The
 former is just tinymap(A). Hm. tinymap(tinyset(1), zip(A, what)).
+Probably something like zip(A, product(A, (1,))).
 
 * Determines, is determined by
 
