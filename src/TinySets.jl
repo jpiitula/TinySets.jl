@@ -44,11 +44,8 @@ import Base: start, done, next, eltype, length
 import Base: rand
 import Base: ctranspose # for f' and r'
 import Base: ==, (-), ^
-import Base: ∩, ∪, ~ # INTERSECTION, UNION
-import Base: is_included_in, ⊆ # SUBSET OF OR EQUAL TO
-# import Base: issubset => stack overflow?
-# in set.jl: 95 when testing bot(x) ⊆ x ⊆ top(x)
-# rename it anyway, to is_included_in (keep using ⊆)
+import Base: ∩, ∪, ~ # INTERSECTION, UNION, \cap, \cup
+import Base: ⊆ # SUBSET OF OR EQUAL TO, \subseteq
 import Base: ∈ # ELEMENT OF, \in
 import Base: × # MULTIPLICATION SIGN
 
@@ -56,7 +53,8 @@ import Iterators: product # hm, TinySets.product a method of that?
 
 export ∘ # RING OPERATOR
 export ≅ # APPROXIMATELY EQUAL TO; Julia reserves ≡ for its ===
-export randpart, randpartition, randrelation
+export randpart, randpartition
+export randrelation, randequivalence
 export randmap, randmono, randepi, randiso
 export injections, surjections # combinatorical generation in general
 export eachmap, eachmono, eachpart, eachepi, eachpartition
@@ -65,8 +63,10 @@ export pairfrom, pairto
 export TinySet, tinyset, id
 export TinyMap, tinymap, dom, cod, graph, inverse
 export TinyRelation, tinyrelation, composition, opposite
-export image, ismono, isepi, isiso
+export image, preimage, ismono, isepi, isiso
 export top, bot
+
+# bring tinyrow (from relation.jl) to these other auxiliaries
 
 function setbit(rule::UInt64, r::Int, k::Int)
     rule | (one(UInt64) << (8 * (r - 1) + (k - 1)))

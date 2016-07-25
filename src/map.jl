@@ -125,6 +125,21 @@ function image(rule::UInt64)
     UInt8(img &= 0xff)
 end
 
+function preimage(f::TinyMap, a::TinySet)
+    reinterpret(TinySet, preimage(ruleof(f), reinterpret(UInt8, a)))
+end
+
+function preimage(rule::UInt64, target::UInt8)
+    source = zero(UInt8)
+    for r in 1:8
+        # maybe tinyrow of UInt64 should be UInt8
+        # and tinyrow of a relation or map should still be set?
+        reinterpret(UInt8, tinyrow(rule, r)) & target == zero(UInt64) && continue
+        source = setbit(source, r)
+    end
+    source
+end
+
 """
     ismono(f::TinyMap)::Bool
 """

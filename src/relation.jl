@@ -54,11 +54,15 @@ graph(f::TinyMap) = TinyRelation(ruleof(f), dom(f), cod(f))
 
 "Aux to iterate TinyRelation using TinySet iterator"
 function tinyrow(a::TinyRelation, r::Int)
-     row = (ruleof(a) >> (8 * (r - 1))) & 0xff
-     reinterpret(TinySet, UInt8(row))
+     tinyrow(ruleof(a), r)
 end
 
-tinyrow(f::TinyMap, r::Int) = tinyrow(graph(f), r)
+tinyrow(f::TinyMap, r::Int) = tinyrow(ruleof(f), r)
+
+function tinyrow(rule::UInt64, r::Int)
+     row = (rule >> (8 * (r - 1))) & 0xff
+     reinterpret(TinySet, UInt8(row))
+end
 
 # A relation is a set of pairs, so iteration order does not matter, so
 # it can as well be "row by row" where a "row" means the values that

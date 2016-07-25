@@ -88,3 +88,5 @@ let
     @test length(tinyset(3,1,4)) == 3
     @test length(collect(tinyset(3,1,4))) == 3
 end
+
+include("equivalence.jl")

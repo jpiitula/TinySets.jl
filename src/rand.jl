@@ -32,7 +32,7 @@ function randpartition(dom::TinySet)
     boxen = bellboxen(length(dom); least = first(dom))
     rule = zero(UInt64)
     for (k,b) in zip(dom, boxen)
-        rule |= UInt64(0x01 << (b - 1)) << (8 * (k - 1))
+        rule = setbit(rule, k, b)
     end
     TinyMap(rule, dom, reinterpret(TinySet, image(rule)))
 end
@@ -48,6 +48,16 @@ function randrelation(dom::TinySet, cod::TinySet)
         mask |= good << (8 * (row - 1))
     end
     TinyRelation(rule & mask, dom, cod)
+end
+
+function randequivalence(dom::TinySet)
+    pion = randpartition(dom)
+    rule = zero(UInt64)
+    for block in [ preimage(pion, tinyset(box)) for box in cod(pion) ]
+        for input in block, output in block
+            rule = setbit(rule, input, output)
+    end end
+    TinyRelation(rule, dom, dom)
 end
 
 function randmap(dom::TinySet, cod::TinySet)

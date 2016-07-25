@@ -218,15 +218,18 @@ eachequivalence(dom::TinySet) = EachEquivalence(dom)
 length(wat::EachEquivalence) = length(partitions0(1:length(wat.dom)))
 eltype(wat::EachEquivalence) = TinyRelation
 
+# help for each and rand
+function makeequivalence(dom::TinySet, blocks)
+    rule = zero(UInt64)
+    for block in blocks
+        for (input,output) in product(block,block)
+            rule = setbit(rule, input, output)
+    end end
+    TinyRelation(rule, dom, dom)
+end
+
 function start(wat::EachEquivalence)
-    function relate(blocks)
-        rule = zero(UInt64)
-        for block in blocks
-            for (input,output) in product(block,block)
-                rule = setbit(rule, input, output)
-        end end
-        TinyRelation(rule, wat.dom, wat.dom)
-    end
+    relate(blocks) = makeequivalence(wat.dom, blocks)
     iter = imap(relate, partitions0(collect(wat.dom)))
     iter, start(iter)
 end
