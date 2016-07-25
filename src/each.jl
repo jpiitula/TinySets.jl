@@ -1,3 +1,5 @@
+# Copyright 2016 Jussi Piitulainen; free under GPLv3+, no warranty
+
 "Constant part of an iteration state"
 immutable EachMap
     dom::TinySet

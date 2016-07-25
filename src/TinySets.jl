@@ -1,28 +1,20 @@
+# Copyright 2016 Jussi Piitulainen; free under GPLv3+, no warranty
+
 # http://docs.julialang.org/en/release-0.4/manual/documentation/
 
 """
     TinySets: TinySet, TinyMap, TinyRelation
 
 /Tiny sets/ are the 256 parts of an underlying 8-element set. /Tiny
-maps/ and /tiny relations/ are functions and relations between tiny
-sets.
-
-The module is intended for conceptual exploration. There are easily
-enough tiny things to be of interest, and they can be used to study
-much bigger worlds. Certain types of tiny relations correspond to
-finite topological spaces.
+maps/ and /tiny relations/ are the 28,501,125 functions and
+19,653,639,560,140,008,575 binary relations that have a specific tiny
+set as their domain and a specific tiny set as their codomain, in
+different categories.
 
 * `tinyset(1)` and `tinyset(3)` are one-point sets.
 * `tinyset(3,1,4)` is a three-point set.
 * `tinymap(tinyset(3,1,4), 1 => 1)` is a point of `tinyset(3,1,4)`.
 * `graph(id(tinyset(3,1,4)))` is an identity relation
-
-# Contents
-
-* Boolean lattice operations, inclusion predicate
-* Composition and inversion of relations
-* Random sets, maps, parts, partitions, and relations
-* Iteration protocols
 
 # Examples
 ```julia> map(collect, eachepi(tinyset(2,5,8), tinyset(3,1)))

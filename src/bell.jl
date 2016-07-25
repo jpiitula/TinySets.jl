@@ -1,3 +1,5 @@
+# Copyright 2016 Jussi Piitulainen; free under GPLv3+, no warranty
+
 """
     bellboxen(n; least = 1)
 
