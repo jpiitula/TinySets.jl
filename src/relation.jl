@@ -104,12 +104,12 @@ function checkparts(a::TinyRelation, b::TinyRelation)
     cod(a) == cod(b) || error("not of type")
 end
 
-function issubset(a::TinyRelation, b::TinyRelation)
+function is_included_in(a::TinyRelation, b::TinyRelation)
     checkparts(a, b)
     (ruleof(a) & ~ruleof(b)) == zero(UInt64)
 end
 
-⊆(a::TinyRelation, b::TinyRelation) = issubset(a, b)
+⊆(a::TinyRelation, b::TinyRelation) = is_included_in(a, b)
 
 function intersection(a::TinyRelation, b::TinyRelation)
     checkparts(a, b)

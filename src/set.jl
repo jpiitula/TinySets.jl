@@ -85,14 +85,14 @@ bot(f::TinySet) = tinyset()
 ≅(f::TinySet, g::TinySet) = f == g
 
 """
-    (f ⊆ g) == issubset(f::TinySet, g::TinySet)
+    (f ⊆ g) == is_included_in(f::TinySet, g::TinySet)
 """
 
-function issubset(f::TinySet, g::TinySet)
+function is_included_in(f::TinySet, g::TinySet)
     (reinterpret(UInt8, f) & ~reinterpret(UInt8, g)) == zero(UInt8)
 end
 
-⊆(f::TinySet, g::TinySet) = issubset(f, g)
+⊆(f::TinySet, g::TinySet) = is_included_in(f, g)
 
 """
     f ∩ g == intersection(f::TinySet, g::TinySet) :: TinySet

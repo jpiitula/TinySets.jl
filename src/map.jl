@@ -153,17 +153,17 @@ function checkparts(f::TinyMap, g::TinyMap)
 end
 
 """
-    (f ⊆ g) == issubset(f::TinyMap, g::TinyMap)
+    (f ⊆ g) == is_included_in(f::TinyMap, g::TinyMap)
 
 Only when `f` and `g` are monomaps with the same codomain.
 """
 
-function issubset(f::TinyMap, g::TinyMap)
+function is_included_in(f::TinyMap, g::TinyMap)
     checkparts(f, g)
     (ruleof(f) & ~ruleof(g)) == zero(UInt64)
 end
 
-⊆(f::TinyMap, g::TinyMap) = issubset(f, g)
+⊆(f::TinyMap, g::TinyMap) = is_included_in(f, g)
 
 """
     f ∩ g == intersection(f::TinyMap, g::TinyMap) :: TinyMap

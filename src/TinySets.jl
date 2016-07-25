@@ -45,7 +45,10 @@ import Base: rand
 import Base: ctranspose # for f' and r'
 import Base: ==, (-), ^
 import Base: ∩, ∪, ~ # INTERSECTION, UNION
-import Base: ⊆
+import Base: is_included_in, ⊆ # SUBSET OF OR EQUAL TO
+# import Base: issubset => stack overflow?
+# in set.jl: 95 when testing bot(x) ⊆ x ⊆ top(x)
+# rename it anyway, to is_included_in (keep using ⊆)
 import Base: ∈ # ELEMENT OF, \in
 import Base: × # MULTIPLICATION SIGN
 
@@ -56,10 +59,11 @@ export ≅ # APPROXIMATELY EQUAL TO; Julia reserves ≡ for its ===
 export randpart, randpartition, randrelation
 export randmap, randmono, randepi, randiso
 export injections, surjections # combinatorical generation in general
-export eachmap, eachmono, eachpart, eachepi, eachpartition, eachrelation
+export eachmap, eachmono, eachpart, eachepi, eachpartition
+export eachrelation, eachequivalence
 export pairfrom, pairto
 export TinySet, tinyset, id
-export TinyMap, tinymap, dom, cod, graph
+export TinyMap, tinymap, dom, cod, graph, inverse
 export TinyRelation, tinyrelation, composition, opposite
 export image, ismono, isepi, isiso
 export top, bot
